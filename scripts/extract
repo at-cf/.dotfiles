@@ -1,0 +1,63 @@
+#! /bin/bash
+
+xerrcho() {
+  >&2 echo $1 && exit ${2:-1}
+}
+
+set -e
+
+# Default behavior: Extract archive into new directory
+# Behavior with `-c` option: Extract contents into current directory
+# Behavior with `-d` option: Delete archive after successful extraction
+
+while getopts "hcr" o; do case "${o}" in
+  c) extract_here=1 ;;
+  d) delete_after=1 ;;
+  *) xerrcho "Usage: extract <-c> <-d> archive" 1 ;;
+esac done
+
+shift $((OPTIND -1))
+
+if [ -z "$extract_here" ]; then
+  archive="$(readlink -f "$*")" &&
+  directory="$(echo "$archive" | sed 's/\.[^\/.]*$//')"
+else
+  archive="$(readlink -f "$(echo "$*" | cut -d' ' -f2)")"
+fi
+
+if [ "$archive" = "" ]; then
+  xerrcho "Give archive to extract as argument" 1
+fi
+if [ ! -f "$archive" ]; then
+  xerrcho "File $archive not found" 1
+fi
+
+if [ ! -z "$directory" ]; then
+  if [ -d "$directory" ] || [ -f "$directory" ]; then
+    xerrcho "$directory already exists" 1
+  fi
+  mkdir -p "$directory"
+  cd "$directory"
+fi
+
+case "$archive" in
+  *.tar.bz2|*.tar.xz|*.tbz2) tar xvjf "$archive" ;;
+  *.tar.gz|*.tgz) tar xvzf "$archive" ;;
+  *.lzma) unlzma "$archive" ;;
+  *.bz2) bunzip2 "$archive" ;;
+  *.rar) unrar x -ad "$archive" ;;
+  *.gz) gunzip "$archive" ;;
+  *.tar) tar xvf "$archive" ;;
+  *.zip) unzip "$archive" ;;
+  *.Z) uncompress "$archive" ;;
+  *.7z) 7z x "$archive" ;;
+  *.xz) unxz "$archive" ;;
+  *.exe) cabextract "$archive" ;;
+  *) xerrcho "Cannot extract $archive (unknown archive method)" 1 ;;
+esac
+
+if [ ! -z "$delete_after" ]; then
+  rm -f "$archive"
+fi
+
+exit 0

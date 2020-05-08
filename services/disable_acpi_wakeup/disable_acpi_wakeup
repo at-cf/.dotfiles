@@ -1,0 +1,11 @@
+#! /bin/bash
+
+# Add your candidates below but make sure that no pattern matches more than one device in /proc/acpi/wakeup
+# https://unix.stackexchange.com/a/250184
+candidates="PS2K PS2M XHC EHC1 EHC2"
+for acpidev in $candidates; do
+  active=$(grep enabled /proc/acpi/wakeup | cut -f 1 | grep "$acpidev")
+  if [ -n "$active" ]; then
+    echo "$active" > /proc/acpi/wakeup
+  fi
+done

@@ -1,0 +1,44 @@
+# vim: ft=sh
+
+export FZF_DEFAULT_OPTS='--height 50% --layout=reverse --border'
+export FZF_DEFAULT_COMMAND='rg --files --color=never --smart-case'
+
+# Run commands on $PATH
+fr() {
+  local cmd=$(cmd_list | fzf +m)
+  [[ -n "$cmd" ]] && "$cmd" "$@"
+}
+
+# Edit files (depends on rg in FZF_DEFAULT_COMMAND for sensible exclusion)
+fe() {
+  local files
+  IFS=$'\n' files=($(fzf -m))
+  [[ -n "$files" ]] && ${EDITOR:-vim} "${files[@]}"
+}
+
+# xdg-open any files
+fo() {
+  local files
+  IFS=$'\n' files=($(find * -type f | fzf -m))
+  if [[ -n "$files" ]]; then
+    for f in "${files[@]}"; do
+      xdg-open "$f"
+    done
+  fi
+}
+
+# cd into subdirectories
+fd() {
+  local dir=$(find ${1:-.} -path '*/\.*' -prune \
+    -o -type d -print 2> /dev/null | fzf +m) && cd "$dir"
+}
+
+# cd into the directory of the selected file
+fdf() {
+  local file=$(fzf +m -q "$1") && local dir=$(dirname "$file") && cd "$dir"
+}
+
+# Shell history
+fh() {
+  eval $( ([ -n "$ZSH_NAME" ] && fc -l 1 || history) | fzf +s --tac | sed 's/ *[0-9]* *//')
+}

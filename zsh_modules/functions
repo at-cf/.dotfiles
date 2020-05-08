@@ -1,0 +1,43 @@
+# vim: ft=sh
+
+# mkdir and cd into it
+mkcd() {
+  if [ $# != 1 ]; then
+    >&2 echo "Usage: mkcd <dir>"
+  else
+    mkdir -p "$1" && cd "$1"
+  fi
+}
+
+# cd and ls
+cl() { cd "$@"; ls; }
+
+# Show CPU usage
+show_cpu_usage() {
+  ps -Ao user,uid,comm,pid,pcpu,tty --sort=-pcpu | head -n ${1:-6}
+}
+
+# Add submodules if you forgot to clone with them
+fix_submodules() {
+  git submodule update --init --recursive
+}
+
+# Show path
+path() {
+  echo $PATH | tr -s ':' '\n'
+}
+
+# Change to root of git project
+cdgr() {
+  cd $(git rev-parse --show-cdup)
+}
+
+# Get x window class name
+get_window_class() {
+  xprop | grep WM_CLASS
+}
+
+# Calculator
+calc() {
+  echo "$@" | bc -l
+}

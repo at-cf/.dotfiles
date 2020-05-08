@@ -1,0 +1,19 @@
+#! /bin/bash
+
+contains_element () {
+  local e match="$1"
+  shift
+  for e; do [[ "$e" == "$match" ]] && return 1; done
+  return 0
+}
+
+ver2_scripts=(
+)
+
+script=$(basename "$( readlink -f "$1" )")
+contains_element "$script" "${ver2_scripts[@]}"
+if [[ $? -eq 1 ]]; then
+  exec python2 "$@"
+else
+  exec python3 "$@"
+fi

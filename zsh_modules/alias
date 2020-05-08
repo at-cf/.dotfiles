@@ -1,0 +1,48 @@
+# vim: ft=sh
+
+alias .....='cd ../../../..'
+alias ....='cd ../../..'
+alias ...='cd ../..'
+alias ..='cd ..'
+alias c='clear'
+alias x='exit'
+alias ~='cd ~'
+alias cd.='cd $CF_DOTFILES'
+alias cdd='cd ~/Development'
+alias i='pushd'
+alias o='popd'
+alias l='ls'
+alias ll='ls -ahl'
+alias ls='ls -aF --color=auto'
+alias f='thunar &'
+alias g='git'
+alias n='npm'
+alias ni='npm install --save'
+alias nid='npm install --save-dev'
+alias nig='npm install -g'
+alias nr='npm run'
+alias chgrp='chgrp --preserve-root'
+alias chmod='chmod --preserve-root'
+alias chown='chown --preserve-root'
+alias e="$EDITOR"
+if [ -x "$(command -v nvim)" ]; then
+  alias v="nvim"
+  alias vi='nvim'
+else
+  alias v="vim"
+  alias vi='vim'
+fi
+alias grep='grep --color=auto'
+alias h='history'
+alias hg='history | grep '
+alias mkdir='mkdir -pv'
+alias o='xdg-open'
+alias rimraf='rm -rf --preserve-root'
+alias rm='rm --preserve-root'
+alias tatt='tmux attach -t'
+alias tls='tmux ls'
+alias tnew='tmux new-session -s'
+alias pac='sudo pacman -S'
+alias upac='sudo pacman -Rns'
+
+[ -s "${HOME}/.alias.local" ] && source "${HOME}/.alias.local"

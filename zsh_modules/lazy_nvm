@@ -1,0 +1,36 @@
+# vim: ft=sh
+
+init_nvm() {
+  if ! [ -z "$1" ]; then
+    unset -f $1
+  else
+    unset -f nvm
+    unset -f node
+    unset -f npm
+  fi
+  if [ -z "$lazy_nvm_did_init" ]; then
+    export NVM_DIR=${HOME}/.nvm
+    [ -s "${NVM_DIR}/nvm.sh" ] && source "${NVM_DIR}/nvm.sh"
+    # nvm use
+    lazy_nvm_did_init=1
+  fi
+}
+
+nvm() {
+  init_nvm nvm
+  nvm "$@"
+}
+
+node() {
+  init_nvm node
+  node "$@"
+}
+
+npm() {
+  init_nvm npm
+  npm "$@"
+}
+
+if [ -z "$CF_LAZY_LOAD_NVM" ]; then
+  init_nvm
+fi

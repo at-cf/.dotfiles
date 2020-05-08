@@ -1,0 +1,8 @@
+#! /bin/bash
+
+set -e
+
+trash-empty
+
+echo "Trash emptied"
+exit 0

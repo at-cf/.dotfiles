@@ -1,0 +1,9 @@
+#! /bin/bash
+
+set -e
+
+if [ -z "$1" ]; then
+  >&2 echo "Argument must be provided" && exit 1
+fi
+
+xrdb -query | grep "${1}:" | awk '{print $NF}'

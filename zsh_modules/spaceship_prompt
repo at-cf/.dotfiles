@@ -1,0 +1,25 @@
+# vim: ft=sh
+
+autoload -U promptinit; promptinit
+prompt spaceship
+# See https://github.com/denysdovhan/spaceship-prompt/blob/master/docs/Options.md
+SPACESHIP_PROMPT_ORDER=(
+  time
+  user
+  dir
+  host
+  git
+  package
+  node
+  aws
+  exec_time
+  line_sep
+  vi_mode
+  jobs
+  exit_code
+  char
+)
+export SPACESHIP_PACKAGE_SYMBOL="✈ "
+export SPACESHIP_VI_MODE_SHOW=false
+export SPACESHIP_PROMPT_ADD_NEWLINE=false
+export SPACESHIP_PROMPT_SEPARATE_LINE=true

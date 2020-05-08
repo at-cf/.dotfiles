@@ -1,0 +1,24 @@
+#! /bin/bash
+
+mode="${1}"
+target="${2}"
+
+if [ ! -d "$target" ] && [ ! -f "$target" ]; then
+  >&2 echo "Usage: $(basename "$0") <dos|unix> <target>" && exit 1
+fi
+
+if [ "$mode" = "dos" ]; then
+  command="unix2dos"
+elif [ "$mode" = "unix" ]; then
+  command="dos2unix"
+else
+  >&2 echo "Invalid mode, see usage" && exit 1
+fi
+
+if [ -d "$target" ]; then
+  find "$target" -type f -exec "$command" {} \;
+elif [ -f "$target" ]; then
+  "$command" "$target"
+fi
+
+exit 0

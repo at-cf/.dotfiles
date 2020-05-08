@@ -1,0 +1,14 @@
+#! /bin/bash
+
+set -e
+
+bash_history="${HOME}/.bash_history"
+zsh_history="${HOME}/.zsh_history"
+less_history="${HOME}/.lesshst"
+
+[ -f "$bash_history" ] && rm -f "$bash_history"
+[ -f "$zsh_history" ] && rm -f "$zsh_history"
+[ -f "$less_history" ] && rm -f "$less_history"
+
+echo "Shell history cleared"
+exit 0

@@ -1,0 +1,27 @@
+# vim: ft=gitignore
+
+# Some of these are not searched by default, but need to be ignored for file listing
+# Most stuff is filtered through .gitignore
+# See e.g. https://github.com/github/gitignore/blob/master/Global/Images.gitignore
+
+# Development
+*-min.*
+*.min.*
+.git/
+dist/
+package-lock.json
+node_modules/
+
+# Fonts
+*.ttf
+*.otf
+
+# Image formats I encounter
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.png
+*.svg
+*.pdf
+*.ico

@@ -1,0 +1,59 @@
+# vim: ft=gitconfig
+
+[url "https://"]
+  insteadOf = git://
+[push]
+  default = simple
+[color]
+  ui = auto
+[core]
+  trustctime = false
+  filemode = false
+  askPass =
+  editor = gvim -f -i NONE
+  autocrlf = input
+[commit]
+  template = "~/.dotfiles/git/commit_template"
+  status = false
+[alias]
+  cl   = clone --recurse-submodules
+  co   = checkout
+  cob  = checkout -b
+  a    = add
+  aa   = add --all
+  b    = branch
+  c    = commit
+  ca   = commit --amend
+  cm   = commit -m
+  cam  = commit --amend -m
+  l    = log --pretty=oneline -n 20 --abbrev-commit
+  lg   = log --pretty=oneline -n 20 --abbrev-commit --graph
+  s    = status -sb
+  pom  = push origin master
+  plom = pull origin master
+  pod  = push origin develop
+  plod = pull origin develop
+  d    = diff
+  dc   = diff --cached
+  mt   = mergetool
+[merge]
+  tool = gvimdiff
+  conflictstyle = diff3
+[mergetool]
+  keepBackup = false
+  prompt = false
+[diff]
+  tool = gvimdiff
+[difftool]
+  prompt = false
+[user]
+  name = cf
+  email = 64846322+at-cf@users.noreply.github.com
+[credential]
+  helper = cache --timeout=172800
+  modalPrompt = false
+[include]
+  # Override settings for windows, if present
+  path = "~/.gitconfig.windows"
+[include]
+  path = "~/.gitconfig.local"

@@ -1,0 +1,56 @@
+#! /bin/bash
+
+set -e
+
+echo Commands are:
+echo   check
+echo   update-arch, update-aur, update-npm
+echo   clean
+echo
+
+if [ "$1" = "check" ]; then
+  [[ $EUID = 0 ]] && >&2 echo "Do not run as root" && exit 1
+  # Show systemd services that have entered in a failed state
+  systemctl --failed
+  # Show broken symlinks
+  find -xtype l -print
+  echo "Check complete"
+  exit 0
+fi
+
+if [ "$1" = "update-arch" ]; then
+  [[ $EUID > 0 ]] && >&2 echo "Run as root" && exit 1
+  pacman -Syu
+  echo "Arch update complete"
+  exit 0
+fi
+
+if [ "$1" = "update-aur" ]; then
+  [[ $EUID = 0 ]] && >&2 echo "Do not run as root" && exit 1
+  yay -Syu
+  echo "AUR update complete"
+  exit 0
+fi
+
+if [ "$1" = "update-npm" ]; then
+  [[ $EUID = 0 ]] && >&2 echo "Do not run as root" && exit 1
+  npm update -g
+  echo "npm update complete"
+  exit 0
+fi
+
+if [ "$1" = "clean" ]; then
+  [[ $EUID > 0 ]] && >&2 echo "Run as root" && exit 1
+  # Remove orphans
+  pacman -Rns $(pacman -Qtdq)
+  # Clean package cache
+  paccache -ruk0
+  # Delete all cached except latest 3
+  paccache -r
+  # Discard blocks not in use by the filesystem
+  fstrim -av
+  echo "Clean complete"
+  exit 0
+fi
+
+exit 1

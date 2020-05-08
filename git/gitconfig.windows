@@ -1,0 +1,6 @@
+# vim: ft=gitconfig
+
+[core]
+  autocrlf = true
+[credential]
+  helper = manager

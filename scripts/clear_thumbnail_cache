@@ -1,0 +1,11 @@
+#! /bin/bash
+
+set -e
+
+thumbnail_cache="${XDG_CACHE_HOME}/thumbnails"
+if [ -d "$thumbnail_cache" ]; then
+  rm -rf "$thumbnail_cache"
+fi
+
+echo "Thumbnail cache cleared"
+exit 0
