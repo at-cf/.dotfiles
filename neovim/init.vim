@@ -268,7 +268,7 @@ if s:cf_plugins && plug#begin(expand(s:cf_config_dir . '/plug'))
   \ | Plug 'FelikZ/ctrlp-py-matcher'
   " }}}
   " general {{{
-  Plug 'at-cf/vim-redir-output.git', { 'on': [ 'RedirS', 'RedirT', 'RedirV' ] }
+  Plug 'at-cf/vim-redir-output', { 'on': [ 'RedirS', 'RedirT', 'RedirV' ] }
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-commentary'
@@ -276,7 +276,7 @@ if s:cf_plugins && plug#begin(expand(s:cf_config_dir . '/plug'))
   Plug 'Raimondi/delimitMate'
   Plug 'Valloric/ListToggle'
   Plug 'yssl/QFEnter'
-  Plug 'at-cf/vim-quit-if-transient-buffers.git'
+  Plug 'at-cf/vim-quit-if-transient-buffers'
   Plug 'lfv89/vim-interestingwords', { 'on': '<Plug>InterestingWords' }
   Plug 'itchyny/vim-parenmatch'
   \ | let g:loaded_matchparen = 1
