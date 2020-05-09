@@ -157,6 +157,11 @@ if [ "$1" = "pacman" ]; then
       "qbittorrent"
       # "uget"
     exit 0
+  elif [ "$2" = "docker" ]; then
+    pacman -S --noconfirm "docker"
+    systemctl enable docker.service
+    systemctl start docker.service
+    exit 0
   elif [ "$2" = "virtualbox" ]; then
     pacman -S --noconfirm \
       "virtualbox" \

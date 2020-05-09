@@ -29,7 +29,7 @@ sudo ./install.sh pacman sound
 sudo ./install.sh pacman network
 sudo ./install.sh pacman ufw
 sudo ./install.sh pacman internet
-sudo ./install.sh pacman virtualbox
+sudo ./install.sh pacman docker
 sudo ./install.sh pacman development
 sudo ./install.sh pacman archive
 sudo ./install.sh pacman thunar
