@@ -4,11 +4,11 @@
 
 ### Arch Linux
 
+Install [Arch](https://gist.github.com/at-cf/dea0e28850f9bc962c8db67a93d241c7) or use [Manjaro](https://manjaro.org/download/). Then see [install.sh](install.sh) for automated install steps.
+
 ```sh
 git clone --recurse-submodules https://github.com/at-cf/.dotfiles.git
 ```
-
-Install [Arch](https://gist.github.com/at-cf/dea0e28850f9bc962c8db67a93d241c7) or use [Manjaro](https://manjaro.org/download/). Then see [install.sh](install.sh) for automated install steps.
 
 ### Windows
 
