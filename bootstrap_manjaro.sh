@@ -2,7 +2,13 @@
 
 set -e
 
+if ! [ -x "$(command -v xfce4-about)" ]; then
+  >&2 echo "Install https://manjaro.org/downloads/official/xfce/" && exit 1
+fi
+
 [[ $EUID = 0 ]] && >&2 echo "Do not run as root" && exit 1
+
+echo "This script will prompt for confirms/passwords..."
 
 mkdir -p $HOME/GoogleDrive
 mkdir -p $HOME/Documents
@@ -33,6 +39,7 @@ sudo ./install.sh pacman docker
 sudo ./install.sh pacman development
 sudo ./install.sh pacman archive
 sudo ./install.sh pacman thunar
+sudo ./install.sh pacman xfce-panel-plugins
 sudo ./install.sh pacman media
 sudo ./install.sh pacman office
 

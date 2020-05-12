@@ -17,13 +17,30 @@ link() {
   echo "Linking $source to $2"
   local parent="$(dirname -- "$2")"
   mkdir -p "$parent"
-  if [ -d "$source" ]; then
-    ln -sfn "$source" "$2"
-  elif [ -f "$source" ]; then
-    ln -sf "$source" "$2"
+  if [ -d "$2" ] && [ ! -L "$2" ]; then
+    local prompt_remove=1
+  elif [ -f "$2" ] && [ ! -L "$2" ]; then
+    local prompt_remove=1
+  fi
+  if [ "$prompt_remove" == "1" ]; then
+    # This manual prompt is necessary because ln -i will put directory
+    # links inside an existing directory...
+    if [ $(ask_yes_or_no "Replace existing $2?") == "yes" ]; then
+      rm -rf "$2"
+      local do_link=1
+    fi
   else
-    if [ -z "$3" ]; then
-      >&2 echo "$source is not valid" && exit 1
+    local do_link=1
+  fi
+  if [ "$do_link" == "1" ]; then
+    if [ -d "$source" ]; then
+      ln -sfn "$source" "$2"
+    elif [ -f "$source" ]; then
+      ln -sf "$source" "$2"
+    else
+      if [ -z "$3" ]; then
+        >&2 echo "$source is not valid" && exit 1
+      fi
     fi
   fi
 }
@@ -48,12 +65,7 @@ if [ "$1" = "link" ]; then
   link zshrc ${HOME}/.zshrc
   link tmux.conf ${HOME}/.tmux.conf
   link zathurarc ${XDG_CONFIG_HOME}/zathura/zathurarc
-  if [ -f "${HOME}/.xinitrc" ]; then
-    >&2 echo ".xinitrc exists..."
-  else
-    link xinitrc ${HOME}/.xinitrc
-  fi
-  link xprofile ${HOME}/.xprofile
+  link xinitrc ${HOME}/.xinitrc
   link Xmodmap ${HOME}/.Xmodmap
   link xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml \
     ${XDG_CONFIG_HOME}/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
@@ -65,10 +77,9 @@ if [ "$1" = "link" ]; then
   link local/profile ${HOME}/.profile.local optional
   link local/alias ${HOME}/.alias.local optional
   link local/vlc ${XDG_CONFIG_HOME}/vlc optional
-  link local/VeraCrypt ${XDG_CONFIG_HOME}/VeraCrypt optional
   link local/qBittorrent ${XDG_CONFIG_HOME}/qBittorrent optional
-  link local/keepassxc ${XDG_CONFIG_HOME}/keepassxc optional
   link local/gtk-3.0/bookmarks ${XDG_CONFIG_HOME}/gtk-3.0/bookmarks optional
+  link local/face.jpg ${HOME}/.face
   link local/autostart/autostart.desktop ${XDG_CONFIG_HOME}/autostart/autostart.desktop optional
   exit 0
 fi
@@ -153,6 +164,7 @@ if [ "$1" = "pacman" ]; then
       "curl" \
       "firefox" \
       "chromium" \
+      "rclone" \
       "surfraw" \
       "qbittorrent"
       # "uget"
@@ -196,19 +208,21 @@ if [ "$1" = "pacman" ]; then
   elif [ "$2" = "xfce" ]; then
     pacman -S --noconfirm \
       "xfce4" \
-      "xfce4-battery-plugin" \
       "xfce4-notifyd" \
       "xfce4-taskmanager" \
-      "xfce4-whiskermenu-plugin" \
-      "xfce4-systemload-plugin" \
-      "xfce4-sensors-plugin" \
-      "xfce4-weather-plugin" \
-      "xfce4-netload-plugin" \
       "xfce4-screensaver" \
       "network-manager-applet" \
       "pasystray" \
       "mousepad"
     exit 0
+  elif [ "$2" = "xfce-panel-plugins" ]; then
+    pacman -S --noconfirm \
+      "xfce4-battery-plugin" \
+      "xfce4-whiskermenu-plugin" \
+      "xfce4-systemload-plugin" \
+      "xfce4-sensors-plugin" \
+      "xfce4-weather-plugin" \
+      "xfce4-netload-plugin"
   elif [ "$2" = "thunar" ]; then
     pacman -S --noconfirm \
       "gvfs" \
@@ -251,7 +265,6 @@ if [ "$1" = "yay" ]; then
     [[ $EUID = 0 ]] && >&2 echo "Do not run as root" && exit 1
     yay -S --noconfirm "jmtpfs"
     yay -S --noconfirm "visual-studio-code-bin"
-    # yay -S --noconfirm "google-drive-ocamlfuse"
     # yay -S --noconfirm "skypeforlinux-stable-bin"
     # yay -S --noconfirm "chromium-widevine"
     exit 0
@@ -347,7 +360,7 @@ if [ "$1" = "node" ]; then
     else
       mkdir -p $install
       cd $install
-      git clone --depth 1 https://github.com/nvm-sh/nvm.git .nvm
+      git clone https://github.com/nvm-sh/nvm.git .nvm
       cd $install/.nvm
       git checkout v0.35.3
     fi
