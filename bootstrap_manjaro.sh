@@ -10,6 +10,8 @@ fi
 
 echo "This script will prompt for confirms/passwords..."
 
+export CF_USER=$USER
+
 mkdir -p $HOME/GoogleDrive
 mkdir -p $HOME/Documents
 mkdir -p $HOME/Downloads
@@ -45,6 +47,10 @@ sudo ./install.sh pacman office
 
 if [ -x "$(command -v yay)" ]; then
   ./install.sh yay packages
+fi
+
+if [ -x "$(command -v docker)" ]; then
+  sudo usermod -aG docker $CF_USER
 fi
 
 ./install.sh tpm

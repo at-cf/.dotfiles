@@ -170,7 +170,7 @@ if [ "$1" = "pacman" ]; then
       # "uget"
     exit 0
   elif [ "$2" = "docker" ]; then
-    pacman -S --noconfirm "docker"
+    pacman -S --noconfirm "docker" "docker-compose"
     systemctl enable docker.service
     systemctl start docker.service
     exit 0
