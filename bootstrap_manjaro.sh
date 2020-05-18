@@ -46,7 +46,11 @@ sudo ./install.sh pacman media
 sudo ./install.sh pacman office
 
 if [ -x "$(command -v yay)" ]; then
-  ./install.sh yay packages
+  yay -S --noconfirm "jmtpfs"
+  yay -S --noconfirm "visual-studio-code-bin"
+  if [ -x "$(command -v docker)" ]; then
+    yay -S --noconfirm "kitematic"
+  fi
 fi
 
 if [ -x "$(command -v docker)" ]; then

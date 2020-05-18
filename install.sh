@@ -145,6 +145,7 @@ if [ "$1" = "pacman" ]; then
     exit 0
   elif [ "$2" = "network" ]; then
     pacman -S --noconfirm \
+      "net-tools" \
       "openssh" \
       "openvpn" \
       "networkmanager" \
@@ -261,28 +262,19 @@ if [ "$1" = "pacman" ]; then
 fi
 
 if [ "$1" = "yay" ]; then
-  if [ "$2" = "packages" ]; then
-    [[ $EUID = 0 ]] && >&2 echo "Do not run as root" && exit 1
-    yay -S --noconfirm "jmtpfs"
-    yay -S --noconfirm "visual-studio-code-bin"
-    # yay -S --noconfirm "skypeforlinux-stable-bin"
-    # yay -S --noconfirm "chromium-widevine"
-    exit 0
+  [[ $EUID = 0 ]] && >&2 echo "Do not run as root" && exit 1
+  install=$CF_BUILD
+  echo "Installing in $install"
+  if [ -d $install/yay ] || [ -x "$(command -v yay)" ]; then
+    >&2 echo 'yay already installed'
   else
-    [[ $EUID = 0 ]] && >&2 echo "Do not run as root" && exit 1
-    install=$CF_BUILD
-    echo "Installing in $install"
-    if [ -d $install/yay ] || [ -x "$(command -v yay)" ]; then
-      >&2 echo 'yay already installed'
-    else
-      mkdir -p $install
-      cd $install
-      git clone --depth 1 https://aur.archlinux.org/yay.git
-      cd yay
-      makepkg -si
-    fi
-    exit 0
+    mkdir -p $install
+    cd $install
+    git clone --depth 1 https://aur.archlinux.org/yay.git
+    cd yay
+    makepkg -si
   fi
+  exit 0
 fi
 
 if [ "$1" = "tpm" ]; then
