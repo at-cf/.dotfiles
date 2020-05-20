@@ -51,6 +51,7 @@ if [ -x "$(command -v yay)" ]; then
   if [ -x "$(command -v docker)" ]; then
     yay -S --noconfirm "kitematic"
   fi
+  yay -S --noconfirm "google-chrome"
 fi
 
 if [ -x "$(command -v docker)" ]; then
