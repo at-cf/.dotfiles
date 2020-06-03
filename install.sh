@@ -130,6 +130,7 @@ if [ "$1" = "pacman" ]; then
       "zsh" \
       "zsh-completions" \
       "tmux" \
+      "xclip" \
       "fzf"
     exit 0
   elif [ "$2" = "security" ]; then
@@ -252,6 +253,7 @@ if [ "$1" = "pacman" ]; then
     exit 0
   elif [ "$2" = "office" ]; then
     pacman -S --noconfirm \
+      "workrave" \
       "calibre" \
       "zathura" \
       "zathura-pdf-poppler"

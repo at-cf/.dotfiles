@@ -41,6 +41,7 @@ fi
 
 if [ "$1" = "clean" ]; then
   [[ $EUID > 0 ]] && >&2 echo "Run as root" && exit 1
+  set +e
   # Remove orphans
   pacman -Rns $(pacman -Qtdq)
   # Clean package cache
@@ -50,6 +51,7 @@ if [ "$1" = "clean" ]; then
   # Discard blocks not in use by the filesystem
   fstrim -av
   echo "Clean complete"
+  set -e
   exit 0
 fi
 
