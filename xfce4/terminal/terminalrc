@@ -39,4 +39,7 @@ DropdownHeight=67
 DropdownOpacity=90
 DropdownStatusIcon=FALSE
 DropdownKeepOpenDefault=TRUE
+ShortcutsNoMenukey=TRUE
+ShortcutsNoHelpkey=TRUE
+ShortcutsNoMnemonics=TRUE
 

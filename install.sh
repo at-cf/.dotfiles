@@ -108,7 +108,8 @@ if [ "$1" = "pacman" ]; then
       "lm_sensors" \
       "htop" \
       "bc" \
-      "pacman-contrib"
+      "pacman-contrib" \
+      "wmctrl"
     exit 0
   elif [ "$2" = "x" ]; then
     pacman -S --noconfirm \

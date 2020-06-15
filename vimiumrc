@@ -1,0 +1,3 @@
+map <F9> previousTab
+map <F10> nextTab
+map <F11> removeTab
