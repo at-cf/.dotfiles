@@ -662,6 +662,9 @@ nnoremap <Leader>v :vsplit<CR>
 
 " tabs {{{
 nnoremap <C-t> :tabnew<CR>
+nnoremap <F9> :tabprev<CR>
+nnoremap <F10> :tabnext<CR>
+nnoremap <F11> :tabclose<CR>
 " }}}
 
 " treat long lines as break lines {{{
@@ -825,7 +828,7 @@ if g:cf_gui
         call GuiWindowFullScreen(1)
       endif
     endfunction
-    nnoremap <silent> <F11> :<C-u>call <SID>ToggleGuiFullscreen()<CR>
+    " nnoremap <silent> <F11> :<C-u>call <SID>ToggleGuiFullscreen()<CR>
   else
     set t_vb=
     set guioptions-=m
