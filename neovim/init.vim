@@ -662,9 +662,9 @@ nnoremap <Leader>v :vsplit<CR>
 
 " tabs {{{
 nnoremap <C-t> :tabnew<CR>
-nnoremap <F9> :tabprev<CR>
-nnoremap <F10> :tabnext<CR>
-nnoremap <F11> :tabclose<CR>
+nnoremap <F6> :tabprev<CR>
+nnoremap <F7> :tabnext<CR>
+nnoremap <F8> :tabclose<CR>
 " }}}
 
 " treat long lines as break lines {{{
