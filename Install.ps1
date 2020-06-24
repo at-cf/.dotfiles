@@ -60,6 +60,7 @@ function Install-Links() {
     Link "$env:USERPROFILE\.gitignore" "$env:DOTFILES\git\gitignore"
     Link "$env:USERPROFILE\.editorconfig" "$env:DOTFILES\editorconfig"
     Link "$env:USERPROFILE\.rgignore" "$env:DOTFILES\rgignore"
+    Link "$env:USERPROFILE\.ideavimrc" "$env:DOTFILES\JetBrains\ideavimrc"
     if (Get-Command gvim.exe -ErrorAction SilentlyContinue | Test-Path) {
       Link "$env:USERPROFILE\vimfiles\vimrc" "$env:DOTFILES\neovim\init.vim"
       Link "$env:USERPROFILE\vimfiles\spell\en.utf-8.add" "$env:DOTFILES\neovim\spell\en.utf-8.add"

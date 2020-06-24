@@ -28,7 +28,7 @@ If on Windows, get vim from [here](https://tuxproject.de/projects/vim/).
 - Set `[N]VIM_FONT` to specify the graphical font used
   - E.g. `VIM_FONT=Hack:h14`/`VIM_FONT="Hack\ 14"` for [Hack](https://sourcefoundry.org/hack/) on Windows/Linux
 
-Mostly I use [Visual Studio Code](https://gist.github.com/at-cf/2cad576de9f013c246f09bbae1d7a618) for development now.
+Separate [VS Code](https://gist.github.com/at-cf/2cad576de9f013c246f09bbae1d7a618) config.
 
 ## Browser
 

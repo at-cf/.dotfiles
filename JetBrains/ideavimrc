@@ -1,0 +1,32 @@
+""" Map leader to space ---------------------
+let mapleader=" "
+
+""" Plugins  --------------------------------
+set surround
+set commentary
+set argtextobj
+set textobj-entire
+" set ReplaceWithRegister
+
+""" Plugin settings -------------------------
+let g:argtextobj_pairs="[:],(:),<:>"
+
+""" Common settings -------------------------
+set showmode
+set scrolloff=5
+set incsearch
+set hlsearch
+set smartcase
+set nu
+set visualbell
+set noerrorbells
+
+""" Idea specific settings ------------------
+set ideajoin
+set ideastatusicon=gray
+set idearefactormode=keep
+
+""" Mappings --------------------------------
+map <leader>r :action RenameElement<CR>
+map <leader>f :action ReformatCode<CR>
+map <leader>o :action FileStructurePopup<CR>
