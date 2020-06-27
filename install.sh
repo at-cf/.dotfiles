@@ -67,6 +67,7 @@ if [ "$1" = "link" ]; then
   link tmux.conf ${HOME}/.tmux.conf
   link zathurarc ${XDG_CONFIG_HOME}/zathura/zathurarc
   link xinitrc ${HOME}/.xinitrc
+  link xprofile ${HOME}/.xprofile optional
   link Xmodmap ${HOME}/.Xmodmap
   link xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml \
     ${XDG_CONFIG_HOME}/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
@@ -116,6 +117,7 @@ if [ "$1" = "pacman" ]; then
     pacman -S --noconfirm \
       "xorg-server" \
       "xorg-xinit" \
+      "xorg-xinput" \
       "xorg-xprop" \
       "xorg-xrandr" \
       "xorg-xinput" \

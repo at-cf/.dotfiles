@@ -1,0 +1,7 @@
+#! /bin/sh
+
+# swap left and right button
+KENSINGTON_TRACKBALL=$(xinput list | grep "Kensington Expert" | head -n 1 | sed -r 's/.*id=([0-9]+).*/\1/')
+if [ ! -z "$KENSINGTON_TRACKBALL" ]; then
+  xinput --set-button-map ${KENSINGTON_TRACKBALL} 3 2 1
+fi
