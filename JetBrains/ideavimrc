@@ -27,6 +27,7 @@ set ideastatusicon=gray
 set idearefactormode=keep
 
 """ Mappings --------------------------------
+map <leader>dd :action GotoDeclaration<CR>
 map <leader>r :action RenameElement<CR>
 map <leader>f :action ReformatCode<CR>
 map <leader>o :action FileStructurePopup<CR>

@@ -53,6 +53,7 @@ if [ -x "$(command -v yay)" ]; then
   fi
   yay -S --noconfirm "google-chrome"
   yay -S --noconfirm "pycharm-professional"
+  yay -S --noconfirm "ttf-windows"
 fi
 
 if [ -x "$(command -v docker)" ]; then
