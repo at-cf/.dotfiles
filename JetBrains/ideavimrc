@@ -26,8 +26,9 @@ set ideajoin
 set ideastatusicon=gray
 set idearefactormode=keep
 
-""" Mappings --------------------------------
+""" Mappings (see :actionlist) --------------
 map <leader>dd :action GotoDeclaration<CR>
+map <leader>dg :action FindUsages<CR>
 map <leader>r :action RenameElement<CR>
 map <leader>f :action ReformatCode<CR>
 map <leader>o :action FileStructurePopup<CR>
