@@ -3,6 +3,7 @@
 # These must always be present for .dotfiles to work properly
 export CF_DOTFILES="${HOME}/.dotfiles"
 export CF_SCRIPTS="${CF_DOTFILES}/scripts"
+export CF_SCRIPTS_LOCAL="${CF_DOTFILES}/local/scripts"
 export CF_BUILD="${HOME}/.build"
 
 # XDG
@@ -35,7 +36,7 @@ export NVIM_PLUGINS=1
 export NVIM_CTLP_CACHE=1
 
 # Path
-PATH=$HOME/.local/bin:$CF_SCRIPTS:$PATH
+PATH=$HOME/.local/bin:$CF_SCRIPTS:$CF_SCRIPTS_LOCAL:$PATH
 export PATH
 
 # Language
