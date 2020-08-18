@@ -17,9 +17,9 @@ link() {
   echo "Linking $source to $2"
   local parent="$(dirname -- "$2")"
   mkdir -p "$parent"
-  if [ -d "$2" ] && [ ! -L "$2" ]; then
+  if [ -e "$source" ] && [ -d "$2" ] && [ ! -L "$2" ]; then
     local prompt_remove=1
-  elif [ -f "$2" ] && [ ! -L "$2" ]; then
+  elif [ -e "$source" ] && [ -f "$2" ] && [ ! -L "$2" ]; then
     local prompt_remove=1
   fi
   if [ "$prompt_remove" == "1" ]; then
