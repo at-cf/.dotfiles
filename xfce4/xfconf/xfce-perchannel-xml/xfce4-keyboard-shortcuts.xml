@@ -32,7 +32,7 @@
       <property name="override" type="bool" value="true"/>
       <property name="Print" type="string" value="flameshot gui -p /home/user/Pictures/Screenshots"/>
       <property name="&lt;Shift&gt;Print" type="string" value="flameshot full -p /home/user/Pictures/Screenshots"/>
-      <property name="Super_L" type="string" value="xfce4-popup-whiskermenu --pointer"/>
+      <property name="&lt;Super&gt;x" type="string" value="xfce4-popup-whiskermenu --pointer"/>
     </property>
   </property>
   <property name="xfwm4" type="empty">
@@ -135,10 +135,9 @@
       <property name="Right" type="string" value="right_key"/>
       <property name="override" type="bool" value="true"/>
       <property name="Up" type="string" value="up_key"/>
-      <property name="F12" type="string" value="cycle_windows_key"/>
-      <property name="F10" type="string" value="switch_application_key"/>
-      <property name="F11" type="string" value="maximize_window_key"/>
-      <property name="F9" type="string" value="close_window_key"/>
+      <property name="&lt;Alt&gt;F4" type="string" value="close_window_key"/>
+      <property name="&lt;Alt&gt;Tab" type="string" value="cycle_windows_key"/>
+      <property name="&lt;Shift&gt;&lt;Alt&gt;ISO_Left_Tab" type="string" value="cycle_reverse_windows_key"/>
     </property>
   </property>
   <property name="providers" type="array">
