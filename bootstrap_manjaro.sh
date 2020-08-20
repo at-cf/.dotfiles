@@ -23,9 +23,6 @@ mkdir -p $HOME/Android
 
 ./install.sh link
 
-sudo ./install.sh disable-core-dump
-sudo ./install.sh disable-beep
-
 if ! [ -x "$(command -v yay)" ]; then
   ./install.sh yay
 fi
@@ -80,3 +77,6 @@ fi
 ./install.sh pip
 
 echo "Manjaro setup complete, reboot..."
+
+sudo ./install.sh disable-core-dump
+sudo ./install.sh disable-beep

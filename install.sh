@@ -23,9 +23,7 @@ link() {
     local prompt_remove=1
   fi
   if [ "$prompt_remove" == "1" ]; then
-    # This manual prompt is necessary because ln -i will put directory
-    # links inside an existing directory...
-    if [ $(ask_yes_or_no "Replace existing $2?") == "yes" ]; then
+    if [ $($FALLBACK_DOTFILES/scripts/ask_yes_or_no "Replace existing $2?") == "yes" ]; then
       rm -rf "$2"
       local do_link=1
     fi
@@ -81,7 +79,7 @@ if [ "$1" = "link" ]; then
   link local/vlc ${XDG_CONFIG_HOME}/vlc optional
   link local/qBittorrent ${XDG_CONFIG_HOME}/qBittorrent optional
   link local/gtk-3.0/bookmarks ${XDG_CONFIG_HOME}/gtk-3.0/bookmarks optional
-  link local/face.jpg ${HOME}/.face
+  link local/face.jpg ${HOME}/.face optional
   link local/autostart/autostart.desktop ${XDG_CONFIG_HOME}/autostart/autostart.desktop optional
   exit 0
 fi
@@ -229,6 +227,7 @@ if [ "$1" = "pacman" ]; then
       "xfce4-sensors-plugin" \
       "xfce4-weather-plugin" \
       "xfce4-netload-plugin"
+    exit 0
   elif [ "$2" = "thunar" ]; then
     pacman -S --noconfirm \
       "gvfs" \
