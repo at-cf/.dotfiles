@@ -98,6 +98,20 @@ if [ "$1" = "disable-beep" ]; then
   exit 0
 fi
 
+if [ "$1" = "hp-wifi" ]; then
+  [[ $EUID = 0 ]] && >&2 echo "Do not run as root" && exit 1
+  sudo pacman -S "linux-headers"
+  sudo pacman -S --noconfirm "bc" "dkms"
+  install=$CF_BUILD
+  echo "Installing in $install"
+  mkdir -p $install
+  cd $install
+  git clone --depth 1 https://github.com/tomaspinho/rtl8821ce.git
+  cd rtl8821ce
+  sudo ./dkms-install.sh
+  exit 0
+fi
+
 if [ "$1" = "pacman" ]; then
   [[ $EUID > 0 ]] && >&2 echo "Run as root" && exit 1
   if [ "$2" = "system" ]; then
