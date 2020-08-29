@@ -167,7 +167,8 @@ if [ "$1" = "pacman" ]; then
       "openvpn" \
       "networkmanager" \
       "nm-connection-editor" \
-      "networkmanager-openvpn"
+      "networkmanager-openvpn" \
+      "tigervnc"
     exit 0
   elif [ "$2" = "ufw" ]; then
     pacman -S --noconfirm "ufw" "gufw"
