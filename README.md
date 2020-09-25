@@ -1,5 +1,7 @@
 # .dotfiles
 
+Also see [.dotfiles-ssh](https://github.com/at-cf/.dotfiles-ssh)
+
 ## Install
 
 ### Arch Linux
