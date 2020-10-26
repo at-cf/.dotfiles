@@ -29,10 +29,17 @@
   l    = log --pretty=oneline -n 20 --abbrev-commit
   lg   = log --pretty=oneline -n 20 --abbrev-commit --graph
   s    = status -sb
+  fa   = fetch --all
   pom  = push origin master
+  pfom = push --force origin master
   plom = pull origin master
+  com  = checkout master
+  fod  = fetch origin develop
+  mod  = merge origin/develop
   pod  = push origin develop
+  pfod = push --force origin develop
   plod = pull origin develop
+  cod  = checkout develop
   d    = diff
   dc   = diff --cached
   mt   = mergetool
@@ -50,7 +57,9 @@
   name = cf
   email = 64846322+at-cf@users.noreply.github.com
 [credential]
-  helper = cache --timeout=172800
+  # FIXME why doesn't windows credential.helper override work?
+  # helper = cache --timeout=172800
+  helper = manager
   modalPrompt = false
 [include]
   # Override settings for windows, if present
