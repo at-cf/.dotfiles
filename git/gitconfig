@@ -58,8 +58,8 @@
   email = 64846322+at-cf@users.noreply.github.com
 [credential]
   # FIXME why doesn't windows credential.helper override work?
-  # helper = cache --timeout=172800
-  helper = manager
+  # helper = manager
+  helper = cache --timeout=172800
   modalPrompt = false
 [include]
   # Override settings for windows, if present
