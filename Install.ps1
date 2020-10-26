@@ -71,6 +71,8 @@ function Install-Links() {
       Link "$env:LOCALAPPDATA\nvim\spell\en.utf-8.add" "$env:DOTFILES\neovim\spell\en.utf-8.add"
       Link "$env:LOCALAPPDATA\nvim\CustomSnippets" "$env:DOTFILES\neovim\CustomSnippets"
     }
+    Link "$env:APPDATA\Code\User\settings.json" "$env:DOTFILES\vscode\settings.json"
+    Link "$env:APPDATA\Code\User\keybindings.json" "$env:DOTFILES\vscode\keybindings.json"
     Link "$env:APPDATA\beets\config.yaml" "$env:DOTFILES\local\beets.config.yaml"
   }
   End {

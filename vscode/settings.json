@@ -1,0 +1,15 @@
+{
+    "workbench.startupEditor": "newUntitledFile",
+    "workbench.iconTheme": "vscode-icons",
+    "files.autoSave": "afterDelay",
+    "editor.fontFamily": "Hack, Consolas, 'Courier New', monospace",
+    "editor.renderWhitespace": "trailing",
+    "explorer.confirmDelete": false,
+    "editor.fontLigatures": true,
+    "vim.hlsearch": true,
+    "telemetry.enableTelemetry": false,
+    "telemetry.enableCrashReporter": false,
+    "[jsonc]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
+}

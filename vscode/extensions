@@ -1,0 +1,16 @@
+#!/bin/bash
+
+code --install-extension alexiv.vscode-angular2-files
+code --install-extension Angular.ng-template
+code --install-extension christian-kohler.path-intellisense
+code --install-extension DavidAnson.vscode-markdownlint
+code --install-extension dbaeumer.vscode-eslint
+code --install-extension EditorConfig.EditorConfig
+code --install-extension eg2.vscode-npm-script
+code --install-extension esbenp.prettier-vscode
+code --install-extension johnpapa.vscode-peacock
+code --install-extension Mikael.Angular-BeastCode
+code --install-extension vscode-icons-team.vscode-icons
+code --install-extension vscodevim.vim
+
+code --list-extensions

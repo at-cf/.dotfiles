@@ -1,0 +1,10 @@
+[
+  {
+    "key": "f7",
+    "command": "workbench.action.nextEditor"
+  },
+  {
+    "key": "f6",
+    "command": "workbench.action.previousEditor"
+  }
+]

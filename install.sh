@@ -58,6 +58,8 @@ if [ "$1" = "link" ]; then
   link neovim/init.vim ${HOME}/.vim/vimrc
   link neovim/spell/en.utf-8.add ${HOME}/.vim/spell/en.utf-8.add
   link neovim/CustomSnippets ${HOME}/.vim/CustomSnippets
+  link vscode/settings.json ${XDG_CONFIG_HOME}/Code/User/settings.json
+  link vscode/keybindings.json ${XDG_CONFIG_HOME}/Code/User/keybindings.json
   link profile ${HOME}/.profile
   link bash_profile ${HOME}/.bash_profile
   link zprofile ${HOME}/.zprofile
