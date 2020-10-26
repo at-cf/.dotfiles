@@ -32,13 +32,13 @@
   fa   = fetch --all
   pom  = push origin master
   pfom = push --force origin master
-  plom = pull origin master
+  plom = pull --ff-only origin master
   com  = checkout master
   fod  = fetch origin develop
   mod  = merge origin/develop
   pod  = push origin develop
   pfod = push --force origin develop
-  plod = pull origin develop
+  plod = pull --ff-only origin develop
   cod  = checkout develop
   d    = diff
   dc   = diff --cached
