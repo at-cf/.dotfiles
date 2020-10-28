@@ -342,7 +342,7 @@ if [ "$1" = "node" ]; then
       "editorconfig"
       "prettier"
       "typescript"
-      "typescript-language-server"
+      # "typescript-language-server"
       # "neovim"
     )
     for i in "${packages[@]}"; do
@@ -368,9 +368,9 @@ fi
 if [ "$1" = "pip" ]; then
   [[ $EUID = 0 ]] && >&2 echo "Do not run as root" && exit 1
   packages3=(
-    "proselint"
+    # "proselint"
     # "pynvim"
-    "yamllint"
+    # "yamllint"
     "awscli"
     # For beets:
     "pylast"
