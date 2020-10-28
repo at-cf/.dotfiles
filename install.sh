@@ -55,10 +55,8 @@ if [ "$1" = "link" ]; then
   link JetBrains/ideavimrc ${HOME}/.ideavimrc
   link neovim/init.vim ${XDG_CONFIG_HOME}/nvim/init.vim
   link neovim/spell/en.utf-8.add ${XDG_CONFIG_HOME}/nvim/spell/en.utf-8.add
-  link neovim/CustomSnippets ${XDG_CONFIG_HOME}/nvim/CustomSnippets
   link neovim/init.vim ${HOME}/.vim/vimrc
   link neovim/spell/en.utf-8.add ${HOME}/.vim/spell/en.utf-8.add
-  link neovim/CustomSnippets ${HOME}/.vim/CustomSnippets
   link vscode/settings.json ${XDG_CONFIG_HOME}/Code/User/settings.json
   link vscode/keybindings.json ${XDG_CONFIG_HOME}/Code/User/keybindings.json
   link profile ${HOME}/.profile

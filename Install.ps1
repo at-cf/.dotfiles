@@ -64,12 +64,10 @@ function Install-Links() {
     if (Get-Command gvim.exe -ErrorAction SilentlyContinue | Test-Path) {
       Link "$env:USERPROFILE\vimfiles\vimrc" "$env:DOTFILES\neovim\init.vim"
       Link "$env:USERPROFILE\vimfiles\spell\en.utf-8.add" "$env:DOTFILES\neovim\spell\en.utf-8.add"
-      Link "$env:USERPROFILE\vimfiles\CustomSnippets" "$env:DOTFILES\neovim\CustomSnippets"
     }
     if (Get-Command nvim.exe -ErrorAction SilentlyContinue | Test-Path) {
       Link "$env:LOCALAPPDATA\nvim\init.vim" "$env:DOTFILES\neovim\init.vim"
       Link "$env:LOCALAPPDATA\nvim\spell\en.utf-8.add" "$env:DOTFILES\neovim\spell\en.utf-8.add"
-      Link "$env:LOCALAPPDATA\nvim\CustomSnippets" "$env:DOTFILES\neovim\CustomSnippets"
     }
     Link "$env:APPDATA\Code\User\settings.json" "$env:DOTFILES\vscode\settings.json"
     Link "$env:APPDATA\Code\User\keybindings.json" "$env:DOTFILES\vscode\keybindings.json"

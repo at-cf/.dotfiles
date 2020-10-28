@@ -61,7 +61,7 @@ set mouse=
 set laststatus=2
 set noshowmode
 set shortmess+=acI
-set statusline=\ %f\ %r%m%=%{CrfLspStatus()}\ %{CrfGitInfo()}\ %y\ %l/%L\ (%P)\ 
+set statusline=\ %f\ %r%m%=\ %{CrfGitInfo()}\ %y\ %l/%L\ (%P)\ 
 set ruler
 function! CrfGitInfo() abort
   if exists('*FugitiveHead')
@@ -71,13 +71,6 @@ function! CrfGitInfo() abort
     endif
   endif
   return ' '
-endfunction
-function! CrfLspStatus() abort
-  if exists('*lsp#get_buffer_diagnostics_counts')
-    let l:counts = lsp#get_buffer_diagnostics_counts()
-    return (l:counts.warning > 0 ? '[W:' . l:counts.warning . ']' : '') . (l:counts.error > 0 ? '[E:' . l:counts.error . ']' : '')
-  endif
-  return ''
 endfunction
 " }}}
 
@@ -272,12 +265,10 @@ if s:cf_plugins && plug#begin(expand(s:cf_config_dir . '/plug'))
   Plug 'tpope/vim-repeat'
   Plug 'tpope/vim-surround'
   Plug 'tpope/vim-commentary'
-  Plug 'alvan/vim-closetag', { 'for': 'html' }
   Plug 'Raimondi/delimitMate'
   Plug 'Valloric/ListToggle'
   Plug 'yssl/QFEnter'
   Plug 'at-cf/vim-quit-if-transient-buffers'
-  Plug 'lfv89/vim-interestingwords', { 'on': '<Plug>InterestingWords' }
   Plug 'itchyny/vim-parenmatch'
   \ | let g:loaded_matchparen = 1
   runtime macros/matchit.vim
@@ -287,25 +278,13 @@ if s:cf_plugins && plug#begin(expand(s:cf_config_dir . '/plug'))
   " }}}
   " development {{{
   Plug 'tpope/vim-fugitive'
-  Plug 'sbdchd/neoformat', { 'on': 'Neoformat' }
-  Plug 'SirVer/ultisnips'
-  \ | Plug 'honza/vim-snippets'
   Plug 'prabirshrestha/asyncomplete.vim'
   \ | Plug 'prabirshrestha/asyncomplete-buffer.vim'
   \ | Plug 'prabirshrestha/asyncomplete-file.vim'
-  \ | Plug 'prabirshrestha/asyncomplete-ultisnips.vim'
-  Plug 'prabirshrestha/async.vim'
-  \ | Plug 'prabirshrestha/vim-lsp'
-  \ | Plug 'prabirshrestha/asyncomplete-lsp.vim'
-  if has('python3') && executable('python')
-    Plug 'valloric/MatchTagAlways', { 'for': [ 'html', 'xml' ] }
-  endif
   " }}}
   " language {{{
   Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
   Plug 'HerringtonDarkholme/yats.vim', { 'for': 'typescript' }
-  Plug 'pangloss/vim-javascript', { 'for': 'javascript' }
-  Plug 'PProvost/vim-ps1', { 'for': 'ps1' }
   " }}}
   " themes {{{
   Plug 'dracula/vim', { 'as': 'dracula' }
@@ -436,62 +415,8 @@ if s:cf_plug_loaded('delimitMate')
 endif
 " }}}
 
-" vim-interestingwords {{{
-if s:cf_plug_loaded('vim-interestingwords')
-  let g:interestingWordsCaseSensitive = 1
-  let g:interestingWordsGUIColors = [
-  \   '#EF798A',
-  \   '#C3E991',
-  \   '#51A3A3',
-  \   '#CB904D',
-  \   '#DFCC74',
-  \   '#E5C3D1',
-  \   '#F7A9A8',
-  \   '#988B8E'
-  \ ]
-  nmap <silent> <Leader>k <Plug>InterestingWords
-  nmap <silent> <Leader>K <Plug>InterestingWordsClear
-endif
-" }}}
-"
 " vim-fugitive {{{
 if s:cf_plug_loaded('vim-fugitive')
-endif
-" }}}
-
-" neoformat {{{
-if s:cf_plug_loaded('neoformat')
-  " general settings
-  let g:neoformat_run_all_formatters = 0
-  let g:neoformat_try_formatprg      = 1
-  let g:neoformat_basic_format_align = 0
-  let g:neoformat_basic_format_retab = 0
-  let g:neoformat_basic_format_trim  = 0
-  let g:neoformat_only_msg_on_error  = 1
-  " formatter settings
-  let g:neoformat_enabled_css        = ['prettier']
-  let g:neoformat_enabled_html       = ['prettier']
-  let g:neoformat_enabled_javascript = ['standard', 'prettier']
-  let g:neoformat_enabled_json       = ['prettier']
-  let g:neoformat_enabled_markdown   = ['prettier']
-  let g:neoformat_enabled_scss       = ['prettier']
-  let g:neoformat_enabled_typescript = ['prettier']
-  let g:neoformat_enabled_yaml       = ['prettier']
-  " takes precedence over all LSP stuff
-  nnoremap <silent> gq :<C-u>Neoformat<CR>
-  vnoremap <silent> gq :<C-u>Neoformat<CR>
-endif
-" }}}
-
-" ultisnips {{{
-if s:cf_plug_loaded('ultisnips')
-  let g:UltiSnipsSnippetDirectories  = ['UltiSnips', 'CustomSnippets']
-  let g:UltiSnipsEditSplit           = 'tabdo'
-  let g:UltiSnipsEnableSnipMate      = 0
-  let g:UltiSnipsListSnippets        = '<C-Tab>'
-  let g:UltiSnipsExpandTrigger       = '<C-j>'
-  let g:UltiSnipsJumpForwardTrigger  = '<C-j>'
-  let g:UltiSnipsJumpBackwardTrigger = '<C-k>'
 endif
 " }}}
 
@@ -535,85 +460,11 @@ if s:cf_plug_loaded('asyncomplete.vim')
         \   'completor': function('asyncomplete#sources#file#completor')
         \ }))
     endif
-    if s:cf_plug_loaded('ultisnips') && s:cf_plug_loaded('asyncomplete-ultisnips.vim')
-      call asyncomplete#register_source(asyncomplete#sources#ultisnips#get_source_options({
-        \   'name': 'ultisnips',
-        \   'whitelist': ['*'],
-        \   'blacklist': [],
-        \   'completor': function('asyncomplete#sources#ultisnips#completor')
-        \ }))
-    endif
   endfunction
   augroup cf_vimrc
     autocmd User asyncomplete_setup call s:cf_register_asyncomplete_sources()
   augroup END
 endif
-" }}}
-
-" vim-lsp {{{
-if s:cf_plug_loaded('vim-lsp')
-  let g:lsp_async_completion             = 1
-  let g:lsp_auto_enable                  = 1
-  let g:lsp_diagnostics_echo_cursor      = 1
-  let g:lsp_diagnostics_enabled          = 1
-  let g:lsp_fold_enabled                 = 0
-  let g:lsp_highlight_references_enabled = 0
-  let g:lsp_highlights_enabled           = 1
-  let g:lsp_hover_conceal                = 1
-  let g:lsp_insert_text_enabled          = 1
-  let g:lsp_preview_autoclose            = 1
-  let g:lsp_preview_doubletap            = [function('lsp#ui#vim#output#closepreview')]
-  let g:lsp_preview_float                = 1
-  let g:lsp_preview_keep_focus           = 1 " :pclose
-  let g:lsp_preview_max_height           = -1
-  let g:lsp_preview_max_width            = -1
-  let g:lsp_signature_help_enabled       = 1
-  let g:lsp_signs_enabled                = 1
-  let g:lsp_signs_priority               = 200
-  let g:lsp_text_edit_enabled            = 1
-  let g:lsp_textprop_enabled             = 1
-  let g:lsp_use_event_queue              = 1
-  let g:lsp_virtual_text_enabled         = 1
-  let g:lsp_virtual_text_prefix          = '> '
-  " lsp maps
-  function! s:cf_set_lsp_buffer_settings()
-    setlocal omnifunc=lsp#complete
-    setlocal signcolumn=auto
-    nmap <buffer> <silent> <Leader>dd <Plug>(lsp-definition)
-    nmap <buffer> <silent> <Leader>dD <Plug>(lsp-peek-definition)
-    nmap <buffer> <silent> <Leader>di <Plug>(lsp-implementation)
-    nmap <buffer> <silent> <Leader>dI <Plug>(lsp-peek-implementation)
-    nmap <buffer> <silent> <Leader>dt <Plug>(lsp-type-definition)
-    nmap <buffer> <silent> <Leader>dT <Plug>(lsp-peek-type-definition)
-    nmap <buffer> <silent> <Leader>dg <Plug>(lsp-references)
-    nmap <buffer> <silent> <Leader>dr <Plug>(lsp-rename)
-    nmap <buffer> <silent> <Leader>da <Plug>(lsp-code-action)
-    nmap <buffer> <silent> K          <Plug>(lsp-hover)
-    nmap <buffer> <silent> <Leader>dx <Plug>(lsp-document-diagnostics)
-    nmap <buffer> <silent> ]e         <Plug>(lsp-next-error)
-    nmap <buffer> <silent> [E         <Plug>(lsp-previous-error)
-    nmap <buffer> <silent> ]w         <Plug>(lsp-next-warning)
-    nmap <buffer> <silent> [W         <Plug>(lsp-previous-warning)
-    nmap <buffer> <silent> ]a         <Plug>(lsp-next-diagnostic)
-    nmap <buffer> <silent> [A         <Plug>(lsp-previous-diagnostic)
-  endfunction
-  " register lsp servers
-  function! s:cf_register_lsp_servers() abort
-    if executable('typescript-language-server')
-      call lsp#register_server({
-      \   'name': 'typescript-language-server',
-      \   'cmd': {server_info->[&shell, &shellcmdflag, 'typescript-language-server --stdio']},
-      \   'root_uri':{server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'tsconfig.json'))},
-      \   'whitelist': ['typescript'],
-      \ })
-    endif
-  endfunction
-  augroup cf_vimrc
-    autocmd User lsp_setup call s:cf_register_lsp_servers()
-    autocmd User lsp_buffer_enabled call s:cf_set_lsp_buffer_settings()
-  augroup END
-endif
-" }}}
 " }}}
 
 " general editing maps {{{
