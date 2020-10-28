@@ -360,9 +360,7 @@ endif
 " }}}
 
 " vim-sleuth {{{
-if s:cf_plug_loaded('vim-sleuth')
-  nnoremap <silent> <F2> :Sleuth<CR>
-else
+if !s:cf_plug_loaded('vim-sleuth')
   set tabstop=2
   set softtabstop=2
   set shiftwidth=2
@@ -513,9 +511,8 @@ nnoremap <Leader>v :vsplit<CR>
 
 " tabs {{{
 nnoremap <C-t> :tabnew<CR>
-nnoremap <F6> :tabprev<CR>
-nnoremap <F7> :tabnext<CR>
-nnoremap <F8> :tabclose<CR>
+nnoremap <F4> :tabprev<CR>
+nnoremap <F5> :tabnext<CR>
 " }}}
 
 " treat long lines as break lines {{{

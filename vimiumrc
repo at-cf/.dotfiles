@@ -1,3 +1,2 @@
-map <F6> previousTab
-map <F7> nextTab
-map <F8> removeTab
+map <F4> previousTab
+map <F5> nextTab
