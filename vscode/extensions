@@ -19,6 +19,7 @@ code --install-extension ms-azuretools.vscode-docker
 code --install-extension alefragnani.bookmarks
 code --install-extension mikestead.dotenv
 code --install-extension gruntfuggly.todo-tree
+code --install-extension alefragnani.project-manager
 
 
 code --list-extensions
