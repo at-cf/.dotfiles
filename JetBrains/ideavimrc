@@ -30,10 +30,9 @@ set idearefactormode=keep
 map <leader>dd :action GotoDeclaration<CR>
 map <F12>      :action GotoDeclaration<CR>
 map <leader>dg :action FindUsages<CR>
-map <leader>r  :action RenameElement<CR>
-map <leader>f  :action ReformatCode<CR>
-map <leader>o  :action FileStructurePopup<CR>
-map <leader>x  :action Replace<CR>
-map <leader>X  :action ReplaceInPath<CR>
+map <leader>dr :action RenameElement<CR>
+map gq         :action ReformatCode<CR>
+map <leader>r  :action Replace<CR>
+map <leader>R  :action ReplaceInPath<CR>
 map <C-q>      :action CloseEditor<CR>
 map <C-p>      :action SearchEverywhere<CR>

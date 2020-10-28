@@ -8,7 +8,6 @@
     "editor.fontSize": 16,
     "editor.fontLigatures": true,
     "editor.renameOnType": true,
-    "explorer.confirmDelete": false,
     "telemetry.enableTelemetry": false,
     "telemetry.enableCrashReporter": false,
     "[jsonc]": {
@@ -29,6 +28,41 @@
     },
     "todo-tree.tree.showScanModeButton": false,
     "vim.hlsearch": true,
+    "vim.gdefault": true,
+    "vim.leader": "<space>",
+    "vim.normalModeKeyBindings": [
+        { "before": ["<c-s>"], "commands": ["workbench.action.files.save"] },
+        { "before": ["<c-q>"], "commands": ["workbench.action.closeActiveEditor"] },
+        { "before": ["<cr>"], "commands": ["workbench.action.keepEditor"] },
+        { "before": ["<leader>", "s"], "commands": ["workbench.action.splitEditor"] },
+        { "before": ["<leader>", "b"], "commands": ["workbench.action.toggleSidebarVisibility"] },
+        { "before": ["-"], "commands": ["workbench.view.explorer"] },
+        { "before": ["<leader>", "o"], "commands": ["workbench.action.quickOpenView"] },
+        { "before": ["<space>", "<space>"], "commands": ["workbench.action.quickOpen"] },
+        { "before": ["<c-space>"], "commands": ["workbench.action.gotoSymbol"] },
+        { "before": ["<leader>", "f"], "commands": ["workbench.view.search"] },
+        { "before": ["<leader>", "r"], "commands": ["workbench.action.replaceInFiles"] },
+        { "before": ["<leader>", "k"], "commands": ["search.action.focusPreviousSearchResult"] },
+        { "before": ["<leader>", "j"], "commands": ["search.action.focusNextSearchResult"] },
+        { "before": ["<leader>", "h"], "commands": ["workbench.action.navigateBack"] },
+        { "before": ["<leader>", "l"], "commands": ["workbench.action.navigateForward"] },
+        { "before": ["g", "q"], "commands": ["editor.action.formatDocument"] },
+        { "before": ["<leader>", "d", "d"], "commands": ["editor.action.goToDeclaration"] },
+        { "before": ["<leader>", "d", "g"], "commands": ["editor.action.referenceSearch.trigger"] },
+        { "before": ["<leader>", "d", "r"], "commands": ["editor.action.rename"] },
+        { "before": ["<leader>", "d", "q"], "commands": ["editor.action.quickFix"] },
+        { "before": ["K"], "commands": ["editor.action.showHover"] },
+        { "before": ["<tab>"], "commands": ["workbench.action.focusNextGroup"] }
+    ],
+    "vim.visualModeKeyBindings": [
+        { "before": ["g", "q"], "commands": ["editor.action.formatSelection "] },
+        { "before": ["<leader>", "f"], "commands": ["workbench.view.search"] },
+        { "before": ["<leader>", "r"], "commands": ["workbench.action.replaceInFiles"] }
+    ],
     "python.showStartPage": false,
-    "python.languageServer": "Pylance"
+    "python.languageServer": "Pylance",
+    "workbench.sideBar.location": "left",
+    "explorer.confirmDelete": false,
+    "editor.suggest.maxVisibleSuggestions": 15,
+    "diffEditor.ignoreTrimWhitespace": false
 }
