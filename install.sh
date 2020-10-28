@@ -51,6 +51,7 @@ if [ "$1" = "link" ]; then
   link git/gitignore ${HOME}/.gitignore
   link git/gitconfig ${HOME}/.gitconfig
   link fonts/Hack-Regular.ttf ${HOME}/.local/share/fonts/Hack-Regular.ttf
+  link fonts/FiraCode-Regular.ttf ${HOME}/.local/share/fonts/FiraCode-Regular.ttf
   link JetBrains/ideavimrc ${HOME}/.ideavimrc
   link neovim/init.vim ${XDG_CONFIG_HOME}/nvim/init.vim
   link neovim/spell/en.utf-8.add ${XDG_CONFIG_HOME}/nvim/spell/en.utf-8.add

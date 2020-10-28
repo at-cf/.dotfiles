@@ -49,7 +49,7 @@ if [ -x "$(command -v yay)" ]; then
     yay -S --noconfirm "kitematic"
   fi
   yay -S --noconfirm "google-chrome"
-  yay -S --noconfirm "pycharm-professional"
+  # yay -S --noconfirm "pycharm-professional"
   yay -S --noconfirm "ttf-windows"
   yay -S --noconfirm "teamviewer"
   # If TeamViewer won't find connection, it's a permission error:

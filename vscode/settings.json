@@ -1,8 +1,9 @@
 {
     "workbench.startupEditor": "newUntitledFile",
     "workbench.iconTheme": "vscode-icons",
-    "files.autoSave": "afterDelay",
-    "editor.fontFamily": "Hack, Consolas, 'Courier New', monospace",
+    "files.autoSave": "onFocusChange",
+    "files.autoSaveDelay": 2000,
+    "editor.fontFamily": "'Fira Code', Hack, Consolas, 'Courier New', monospace",
     "editor.renderWhitespace": "trailing",
     "explorer.confirmDelete": false,
     "editor.fontLigatures": true,
@@ -11,5 +12,22 @@
     "telemetry.enableCrashReporter": false,
     "[jsonc]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
-    }
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "python.showStartPage": false,
+    "todo-tree.tree.showScanModeButton": false,
+    "editor.renameOnType": true,
+    "files.exclude": {
+        "**/dist": true,
+        "**/node_modules": true
+    },
+    "files.watcherExclude": {
+        "**/dist": true
+    },
+    "editor.fontSize": 16
 }
