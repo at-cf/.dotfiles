@@ -15,6 +15,7 @@ code --install-extension vscodevim.vim
 code --install-extension idleberg.icon-fonts
 # code --install-extension formulahendry.auto-rename-tag
 code --install-extension ms-python.python
+code --install-extension ms-python.vscode-pylance
 code --install-extension ms-azuretools.vscode-docker
 code --install-extension alefragnani.bookmarks
 code --install-extension mikestead.dotenv

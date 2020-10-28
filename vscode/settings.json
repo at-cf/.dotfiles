@@ -27,7 +27,8 @@
     "files.watcherExclude": {
         "**/dist": true
     },
-    "python.showStartPage": false,
     "todo-tree.tree.showScanModeButton": false,
-    "vim.hlsearch": true
+    "vim.hlsearch": true,
+    "python.showStartPage": false,
+    "python.languageServer": "Pylance"
 }
