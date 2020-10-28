@@ -16,9 +16,6 @@ cf_zsh_modules="$CF_DOTFILES/zsh_modules"
 [ -s "$cf_zsh_modules/fzf" ] && source "$cf_zsh_modules/fzf"
 [ -s "$cf_zsh_modules/title" ] && source "$cf_zsh_modules/title"
 [ -s "$cf_zsh_modules/vim_mode" ] && source "$cf_zsh_modules/vim_mode"
-if [[ -f "$HOME/.zfunctions/prompt_spaceship_setup" ]]; then
-  [ -s "$cf_zsh_modules/spaceship_prompt" ] && source "$cf_zsh_modules/spaceship_prompt"
-fi
 
 # History
 export HISTFILE="$HOME/.zsh_history"
@@ -48,6 +45,11 @@ setopt always_to_end
 bindkey -M menuselect '^[[Z' reverse-menu-complete
 zstyle ':completion:*:*:*:*:*' menu select
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|=*' 'l:|=* r:|=*'
+
+# Prompt
+# From https://zsh-prompt-generator.site/
+# PROMPT="%*|%?:%~>"
+PROMPT="%F{blue}%*|%?%f %F{green}%~%f "
 
 # Syntax highlighting
 [ -s "${CF_BUILD}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ] \

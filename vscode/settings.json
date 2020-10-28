@@ -3,11 +3,12 @@
     "workbench.iconTheme": "vscode-icons",
     "files.autoSave": "onFocusChange",
     "files.autoSaveDelay": 2000,
-    "editor.fontFamily": "'Fira Code', Hack, Consolas, 'Courier New', monospace",
     "editor.renderWhitespace": "trailing",
-    "explorer.confirmDelete": false,
+    "editor.fontFamily": "'Fira Code', Hack, monospace",
+    "editor.fontSize": 16,
     "editor.fontLigatures": true,
-    "vim.hlsearch": true,
+    "editor.renameOnType": true,
+    "explorer.confirmDelete": false,
     "telemetry.enableTelemetry": false,
     "telemetry.enableCrashReporter": false,
     "[jsonc]": {
@@ -19,9 +20,6 @@
     "[html]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
-    "python.showStartPage": false,
-    "todo-tree.tree.showScanModeButton": false,
-    "editor.renameOnType": true,
     "files.exclude": {
         "**/dist": true,
         "**/node_modules": true
@@ -29,5 +27,7 @@
     "files.watcherExclude": {
         "**/dist": true
     },
-    "editor.fontSize": 16
+    "python.showStartPage": false,
+    "todo-tree.tree.showScanModeButton": false,
+    "vim.hlsearch": true
 }

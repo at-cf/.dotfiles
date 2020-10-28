@@ -63,7 +63,6 @@ fi
 ./install.sh tpm
 
 ./install.sh zsh
-./install.sh zsh spaceship-prompt
 ./install.sh zsh syntax-highlighting
 
 ./install.sh node && \

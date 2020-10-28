@@ -313,23 +313,7 @@ if [ "$1" = "tpm" ]; then
 fi
 
 if [ "$1" = "zsh" ]; then
-  if [ "$2" = "spaceship-prompt" ]; then
-    [[ $EUID = 0 ]] && >&2 echo "Do not run as root" && exit 1
-    mkdir -p $CF_BUILD
-    install=$CF_BUILD
-    echo "Installing in $install/spaceship-prompt"
-    if [ -d $install/spaceship-prompt ]; then
-      >&2 echo 'spaceship-prompt already installed'
-    else
-      mkdir -p $install
-      cd $install
-      git clone --depth 1 https://github.com/denysdovhan/spaceship-prompt.git
-      mkdir -p $HOME/.zfunctions
-      ln -sf "$install/spaceship-prompt/spaceship.zsh" "$HOME/.zfunctions/prompt_spaceship_setup"
-      echo 'Ensure fpath=( "$HOME/.zfunctions" $fpath ) added to .zshrc'
-    fi
-    exit 0
-  elif [ "$2" = "syntax-highlighting" ]; then 
+  if [ "$2" = "syntax-highlighting" ]; then 
     [[ $EUID = 0 ]] && >&2 echo "Do not run as root" && exit 1
     mkdir -p $CF_BUILD
     install=$CF_BUILD
