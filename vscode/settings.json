@@ -1,6 +1,7 @@
 {
-    "workbench.startupEditor": "newUntitledFile",
+    "workbench.startupEditor": "welcomePageInEmptyWorkbench",
     "workbench.iconTheme": "vscode-icons",
+    "workbench.sideBar.location": "left",
     "files.autoSave": "onFocusChange",
     "files.autoSaveDelay": 2000,
     "editor.renderWhitespace": "trailing",
@@ -8,6 +9,7 @@
     "editor.fontSize": 16,
     "editor.fontLigatures": true,
     "editor.renameOnType": true,
+    "editor.suggest.maxVisibleSuggestions": 15,
     "telemetry.enableTelemetry": false,
     "telemetry.enableCrashReporter": false,
     "[jsonc]": {
@@ -26,6 +28,7 @@
     "files.watcherExclude": {
         "**/dist": true
     },
+    "tabnine.experimentalAutoImports": true,
     "todo-tree.tree.showScanModeButton": false,
     "vim.hlsearch": true,
     "vim.gdefault": true,
@@ -61,8 +64,7 @@
     ],
     "python.showStartPage": false,
     "python.languageServer": "Pylance",
-    "workbench.sideBar.location": "left",
+    "python.formatting.provider": "autopep8",
     "explorer.confirmDelete": false,
-    "editor.suggest.maxVisibleSuggestions": 15,
     "diffEditor.ignoreTrimWhitespace": false
 }

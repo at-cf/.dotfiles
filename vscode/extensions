@@ -21,6 +21,7 @@ code --install-extension alefragnani.bookmarks
 code --install-extension mikestead.dotenv
 code --install-extension gruntfuggly.todo-tree
 code --install-extension alefragnani.project-manager
+# code --install-extension tabnine.tabnine-vscode
 
 
 code --list-extensions
