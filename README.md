@@ -31,17 +31,3 @@ If on Windows, get vim from [here](https://tuxproject.de/projects/vim/).
   - E.g. `VIM_FONT=Hack:h14`/`VIM_FONT="Hack\ 14"` for [Hack](https://sourcefoundry.org/hack/) on Windows/Linux
 
 Separate [VS Code](https://gist.github.com/at-cf/2cad576de9f013c246f09bbae1d7a618) config.
-
-## Browser
-
-See [privacytools.io](https://www.privacytools.io/browsers/). Some good [Firefox](https://www.mozilla.org/en-US/firefox/new/) extensions:
-
-- [Decentraleyes](https://addons.mozilla.org/en-US/firefox/addon/decentraleyes/)
-- [HTTPS Everywhere](https://addons.mozilla.org/en-US/firefox/addon/https-everywhere/)
-- [Privacy Badger](https://addons.mozilla.org/en-US/firefox/addon/privacy-badger17/)
-- [uBlock Origin](https://addons.mozilla.org/en-US/firefox/addon/ublock-origin/)
-- [uMatrix](https://addons.mozilla.org/en-US/firefox/addon/umatrix/) (advanced)
-- [Canvas Defender](https://addons.mozilla.org/en-US/firefox/addon/no-canvas-fingerprinting/)
-- [Cookie AutoDelete](https://addons.mozilla.org/en-US/firefox/addon/cookie-autodelete/)
-- [Smart Referer](https://addons.mozilla.org/en-US/firefox/addon/smart-referer/)
-- [Vimium-FF](https://addons.mozilla.org/en-US/firefox/addon/vimium-ff/)

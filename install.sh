@@ -182,11 +182,11 @@ if [ "$1" = "pacman" ]; then
     pacman -S --noconfirm \
       "wget" \
       "curl" \
-      "firefox" \
       "chromium" \
       "rclone" \
       "surfraw" \
       "qbittorrent"
+      # "firefox" \
       # "uget"
     exit 0
   elif [ "$2" = "docker" ]; then
