@@ -21,7 +21,6 @@ else
 fi
 export TERMINAL=xfce4-terminal
 export BROWSER=chromium
-export READER=zathura
 export PAGER=less
 
 # Settings

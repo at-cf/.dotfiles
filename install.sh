@@ -2,12 +2,17 @@
 
 set -e
 
+[[ $EUID = 0 ]] && >&2 echo "Do not run as root" && exit 1
+
 FALLBACK_DOTFILES="$(cd "$(dirname "${BASH_SOURCE[0]}")" >/dev/null 2>&1 && pwd)"
 FALLBACK_HOME="$(dirname $FALLBACK_DOTFILES)"
 
+CF_USER=${USER:-user}
+HOME=${HOME:-FALLBACK_HOME}
 CF_DOTFILES="${CF_DOTFILES:-$FALLBACK_DOTFILES}"
-CF_BUILD="${CF_BUILD:-$FALLBACK_HOME/.build}"
-XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$FALLBACK_HOME/.config}"
+CF_BUILD="${CF_BUILD:-$HOME/.build}"
+mkdir -p $CF_BUILD
+XDG_CONFIG_HOME="${XDG_CONFIG_HOME:-$HOME/.config}"
 
 link() {
   if [ -z "$2" ]; then
@@ -44,7 +49,6 @@ link() {
 }
 
 if [ "$1" = "link" ]; then
-  [[ $EUID = 0 ]] && >&2 echo "Do not run as root" && exit 1
   link rgignore ${HOME}/.rgignore
   link angular-config.json ${HOME}/.angular-config.json
   link editorconfig ${HOME}/.editorconfig
@@ -64,10 +68,10 @@ if [ "$1" = "link" ]; then
   link zprofile ${HOME}/.zprofile
   link zshrc ${HOME}/.zshrc
   link tmux.conf ${HOME}/.tmux.conf
-  link zathurarc ${XDG_CONFIG_HOME}/zathura/zathurarc
   link xinitrc ${HOME}/.xinitrc
   link xprofile ${HOME}/.xprofile optional
   link Xmodmap ${HOME}/.Xmodmap
+  link Xresources ${HOME}/.Xresources
   link xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml \
     ${XDG_CONFIG_HOME}/xfce4/xfconf/xfce-perchannel-xml/xfce4-keyboard-shortcuts.xml
   link xfce4/terminal/terminalrc ${XDG_CONFIG_HOME}/xfce4/terminal/terminalrc
@@ -85,38 +89,83 @@ if [ "$1" = "link" ]; then
   exit 0
 fi
 
-if [ "$1" = "disable-core-dump" ]; then
-  [[ $EUID > 0 ]] && >&2 echo "Run as root" && exit 1
-  file=/etc/sysctl.d/50-coredump.conf
-  echo 'kernel.core_pattern=|/bin/false' > $file
-  sysctl -p $file
-  exit 0
+if [ "$1" = "system" ]; then
+  if [ "$2" = "disable-core-dump" ]; then
+    file=/etc/sysctl.d/50-coredump.conf
+    sudo echo 'kernel.core_pattern=|/bin/false' > $file &&
+      sudo sysctl -p $file
+    exit 0
+  elif [ "$2" = "disable-beep" ]; then
+    sudo echo "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf
+    exit 0
+  elif [ "$2" = "home-dirs" ]; then
+    mkdir -p ${HOME}/GoogleDrive
+    mkdir -p ${HOME}/Documents
+    mkdir -p ${HOME}/Downloads
+    mkdir -p ${HOME}/Development/.tmp
+    mkdir -p ${HOME}/Pictures/Screenshots
+    mkdir -p ${HOME}/.tmp
+    mkdir -p ${HOME}/.build
+    mkdir -p ${HOME}/Android
+    exit 0
+  elif [ "$2" = "swapfile" ]; then
+    swap=${3:-/swapfile}
+    size=${4:-16G}
+    [ -f "$swap" ] && >&2 echo "${swap} already exists" && exit 1
+    sudo fallocate -l $size $swap && \
+      sudo chmod 600 $swap && \
+      sudo mkswap $swap && \
+      sudo sysctl -w vm.swappiness=1 && \
+      sudo echo "vm.swappiness=1" >> /etc/sysctl.d/99-sysctl.conf && \
+      sudo swapon $swap && \
+      sudo echo "${swap} none swap defaults 0 0" >> /etc/fstab && \
+      echo >&2 "See the comments to enable hibernate!"
+    # Find offset with filefrag -v $swap
+    # Add 'resume=/dev/mapper/volgroup0-lv_root resume_offset=<your offset>' to /etc/default/grub and regenerate
+    # Change hooks in /etc/mkinitcpio.conf: move keyboard before encrypt, move resume after encrypt (and lvm2?) before filesystems and then regenerate
+    exit 0
+  fi
 fi
 
-if [ "$1" = "disable-beep" ]; then
-  [[ $EUID > 0 ]] && >&2 echo "Run as root" && exit 1
-  echo "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf
-  exit 0
-fi
-
-if [ "$1" = "hp-wifi" ]; then
-  [[ $EUID = 0 ]] && >&2 echo "Do not run as root" && exit 1
-  sudo pacman -S "linux-headers"
-  sudo pacman -S --noconfirm "bc" "dkms"
-  install=$CF_BUILD
-  echo "Installing in $install"
-  mkdir -p $install
-  cd $install
-  git clone --depth 1 https://github.com/tomaspinho/rtl8821ce.git
-  cd rtl8821ce
-  sudo ./dkms-install.sh
-  exit 0
+if [ "$1" = "hp" ]; then
+  # To fix screen brightness, add to /etc/X11/xorg.conf.d/20-intel.conf:
+  #   Section "Device"
+  #       Identifier  "Intel Graphics"
+  #       Driver      "intel"
+  #       Option      "Backlight"  "intel_backlight"
+  #   EndSection
+  if [ "$2" = "wifi" ]; then
+    sudo pacman -S --noconfirm "bc" "dkms" && \
+      install=$CF_BUILD && mkdir -p $install && cd $install && \
+      git clone --depth 1 https://github.com/tomaspinho/rtl8821ce.git && cd rtl8821ce && \
+      sudo ./dkms-install.sh
+    exit 0
+  elif [ "$2" = "optimus-lts" ]; then
+    sudo pacman -S --noconfirm \
+      "bumblebee" \
+      "mesa" \
+      "mesa-demos" \
+      "xf86-video-intel" \
+      "nvidia-lts" \
+      "nvidia-settings" \
+      "nvidia-utils" \
+      "opencl-nvidia" && \
+      sudo gpasswd -a "$CF_USER" bumblebee && \
+      sudo systemctl enable bumblebeed.service && \
+      sudo nvidia-modprobe
+    echo "Reboot required..."
+    # Test with `optirun glxgears -info`
+    exit 0
+  fi
 fi
 
 if [ "$1" = "pacman" ]; then
-  [[ $EUID > 0 ]] && >&2 echo "Run as root" && exit 1
-  if [ "$2" = "system" ]; then
-    pacman -S --noconfirm \
+  if [ "$2" = "lts-kernel" ]; then
+    sudo pacman -S --noconfirm "linux-lts" "linux-lts-headers"
+    # Uninstall latest kernels (optional), and make your grub config again
+    exit 0
+  elif [ "$2" = "system" ]; then
+    sudo pacman -S --noconfirm \
       "base-devel" \
       "sysstat" \
       "dos2unix" \
@@ -128,7 +177,7 @@ if [ "$1" = "pacman" ]; then
       "wmctrl"
     exit 0
   elif [ "$2" = "x" ]; then
-    pacman -S --noconfirm \
+    sudo pacman -S --noconfirm \
       "xorg-server" \
       "xorg-xinit" \
       "xorg-xinput" \
@@ -144,7 +193,7 @@ if [ "$1" = "pacman" ]; then
       "xsel"
     exit 0
   elif [ "$2" = "shell" ]; then
-    pacman -S --noconfirm \
+    sudo pacman -S --noconfirm \
       "zsh" \
       "zsh-completions" \
       "tmux" \
@@ -152,18 +201,18 @@ if [ "$1" = "pacman" ]; then
       "fzf"
     exit 0
   elif [ "$2" = "security" ]; then
-    pacman -S --noconfirm \
+    sudo pacman -S --noconfirm \
       "keepassxc" \
       "veracrypt"
     exit 0
   elif [ "$2" = "sound" ]; then
-    pacman -S --noconfirm \
+    sudo pacman -S --noconfirm \
       "pulseaudio" \
       "pavucontrol" \
       "paprefs"
     exit 0
   elif [ "$2" = "network" ]; then
-    pacman -S --noconfirm \
+    sudo pacman -S --noconfirm \
       "net-tools" \
       "openssh" \
       "openvpn" \
@@ -172,15 +221,14 @@ if [ "$1" = "pacman" ]; then
       "networkmanager-openvpn" \
       "tigervnc"
     exit 0
-  elif [ "$2" = "ufw" ]; then
-    pacman -S --noconfirm "ufw" "gufw"
-    systemctl enable ufw.service
-    systemctl start ufw.service
-    ufw enable
-    ufw logging off
+  elif [ "$2" = "firewall" ]; then
+    sudo pacman -S --noconfirm "ufw" "gufw" && \
+      sudo systemctl enable ufw.service && \
+      sudo systemctl start ufw.service && \
+      sudo ufw enable && ufw logging off
     exit 0
   elif [ "$2" = "internet" ]; then
-    pacman -S --noconfirm \
+    sudo pacman -S --noconfirm \
       "wget" \
       "curl" \
       "chromium" \
@@ -189,14 +237,21 @@ if [ "$1" = "pacman" ]; then
       "qbittorrent"
       "firefox"
       # "uget"
+    # yay -S --noconfirm "google-chrome" \
+    #   "skypeforlinux-stable-bin" \
+    #   "chromium-widevine"
+    yay -S --noconfirm "teamviewer" && \
+      sudo systemctl restart teamviewerd.service
     exit 0
   elif [ "$2" = "docker" ]; then
-    pacman -S --noconfirm "docker" "docker-compose"
-    systemctl enable docker.service
-    systemctl start docker.service
+    sudo pacman -S --noconfirm "docker" "docker-compose" && \
+      sudo systemctl enable docker.service && \
+      sudo systemctl start docker.service && \
+      sudo usermod -aG docker $CF_USER
+    # yay -S --noconfirm "kitematic"
     exit 0
   elif [ "$2" = "virtualbox" ]; then
-    pacman -S --noconfirm \
+    sudo pacman -S --noconfirm \
       "virtualbox" \
       "virtualbox-host-modules-arch" \
       "virtualbox-guest-iso"
@@ -206,17 +261,18 @@ if [ "$1" = "pacman" ]; then
     # /usr/lib/virtualbox/additions/VBoxGuestAdditions.iso
     exit 0
   elif [ "$2" = "development" ]; then
-    # Replace with gvim...
-    # pacman -R --noconfirm vim
-    pacman -S --noconfirm \
+    # Replace with gvim... pacman -R --noconfirm vim
+    sudo pacman -S --noconfirm \
       "ripgrep" \
       "gvim" \
       "git" \
       "python" \
       "python-pip"
+    yay -S --noconfirm "visual-studio-code-bin" \
+      "pycharm-professional"
     exit 0
   elif [ "$2" = "archive" ]; then
-    pacman -S --noconfirm \
+    sudo pacman -S --noconfirm \
       "xarchiver" \
       "p7zip" \
       "unzip" \
@@ -227,17 +283,20 @@ if [ "$1" = "pacman" ]; then
       "rsync"
     exit 0
   elif [ "$2" = "xfce" ]; then
-    pacman -S --noconfirm \
+    sudo pacman -S --noconfirm \
       "xfce4" \
       "xfce4-notifyd" \
       "xfce4-taskmanager" \
       "xfce4-screensaver" \
+      "xfce4-terminal" \
       "network-manager-applet" \
       "pasystray" \
       "mousepad"
+    sudo pacman -S --noconfirm "slock" && \
+      sudo xfconf-query -c xfce4-session -p /general/LockCommand -s "slock" --create -t string
     exit 0
   elif [ "$2" = "xfce-panel-plugins" ]; then
-    pacman -S --noconfirm \
+    sudo pacman -S --noconfirm \
       "xfce4-battery-plugin" \
       "xfce4-whiskermenu-plugin" \
       "xfce4-systemload-plugin" \
@@ -246,7 +305,7 @@ if [ "$1" = "pacman" ]; then
       "xfce4-netload-plugin"
     exit 0
   elif [ "$2" = "thunar" ]; then
-    pacman -S --noconfirm \
+    sudo pacman -S --noconfirm \
       "gvfs" \
       "tumbler" \
       "poppler-glib" \
@@ -259,10 +318,11 @@ if [ "$1" = "pacman" ]; then
       "trash-cli" \
       "wipe" \
       "exfat-utils"
+    yay -S --noconfirm "jmtpfs"
     exit 0
   elif [ "$2" = "media" ]; then
-    pacman -S --noconfirm \
-      "feh" \
+    sudo pacman -S --noconfirm \
+      "viewnior" \
       "flameshot" \
       "peek" \
       "cmus" \
@@ -272,37 +332,31 @@ if [ "$1" = "pacman" ]; then
       "gimp"
     exit 0
   elif [ "$2" = "office" ]; then
-    pacman -S --noconfirm \
+    sudo pacman -S --noconfirm \
       "workrave" \
       "calibre" \
-      # "zathura" \
-      # "zathura-pdf-poppler" \
       "libreoffice-still"
+    yay -S --noconfirm "foxitreader"
     exit 0
   fi
   >&2 echo 'Specify what to install' && exit 1
 fi
 
 if [ "$1" = "yay" ]; then
-  [[ $EUID = 0 ]] && >&2 echo "Do not run as root" && exit 1
   install=$CF_BUILD
-  echo "Installing in $install"
   if [ -d $install/yay ] || [ -x "$(command -v yay)" ]; then
     >&2 echo 'yay already installed'
   else
-    mkdir -p $install
-    cd $install
-    git clone --depth 1 https://aur.archlinux.org/yay.git
-    cd yay
-    makepkg -si
+    mkdir -p $install && cd $install && \
+      git clone --depth 1 https://aur.archlinux.org/yay.git && \
+      cd yay && \
+      makepkg -si
   fi
   exit 0
 fi
 
 if [ "$1" = "tpm" ]; then
-  [[ $EUID = 0 ]] && >&2 echo "Do not run as root" && exit 1
-  install=$HOME/.tmux/plugins/tpm
-  echo "Installing in $install"
+  install=${HOME}/.tmux/plugins/tpm
   if [ ! -d $install ]; then
     git clone --depth 1 https://github.com/tmux-plugins/tpm "$install"
   else
@@ -312,22 +366,17 @@ if [ "$1" = "tpm" ]; then
 fi
 
 if [ "$1" = "zsh" ]; then
-  if [ "$2" = "syntax-highlighting" ]; then 
-    [[ $EUID = 0 ]] && >&2 echo "Do not run as root" && exit 1
-    mkdir -p $CF_BUILD
+  if [ "$2" = "syntax-highlighting" ]; then
     install=$CF_BUILD
     # Note that this install path is hardcoded in .../zsh/modules/syntax
-    echo "Installing in $install/zsh-syntax-highlighting"
-    if [ -d $install/zsh-syntax-highlighting ]; then
+    if [ -d ${install}/zsh-syntax-highlighting ]; then
       >&2 echo 'zsh-syntax-highlighting already installed'
     else
-      mkdir -p $install
-      cd $install
-      git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git
+      mkdir -p $install && cd $install && \
+        git clone --depth 1 https://github.com/zsh-users/zsh-syntax-highlighting.git
     fi
     exit 0
   else
-    [[ $EUID = 0 ]] && >&2 echo "Do not run as root" && exit 1
     chsh -s /bin/zsh
     exit 0
   fi
@@ -335,7 +384,6 @@ fi
 
 if [ "$1" = "node" ]; then
   if [ "$2" = "packages" ] ; then
-    [[ $EUID = 0 ]] && >&2 echo "Do not run as root" && exit 1
     # npm outdated -g --depth=0
     # npm update -g
     packages=(
@@ -351,23 +399,24 @@ if [ "$1" = "node" ]; then
     done
     exit 0
   else
-    [[ $EUID = 0 ]] && >&2 echo "Do not run as root" && exit 1
     install=$HOME
-    if [ -d $install/.nvm ]; then
+    if [ -d ${install}/.nvm ]; then
       >&2 echo 'nvm already installed'
     else
-      mkdir -p $install
-      cd $install
-      git clone https://github.com/nvm-sh/nvm.git .nvm
-      cd $install/.nvm
-      git checkout v0.35.3
+      mkdir -p $install && cd $install && \
+        git clone https://github.com/nvm-sh/nvm.git .nvm && \
+        cd ${install}/.nvm && \
+        git checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)` && \
+        export NVM_DIR="${install}/.nvm" && \
+        [ -s "${NVM_DIR}/nvm.sh" ] && . "${NVM_DIR}/nvm.sh" && \
+        nvm install --lts && nvm use --lts && \
+        echo "lts/*" > "${HOME}/.nvmrc"
     fi
     exit 0
   fi
 fi
 
 if [ "$1" = "pip" ]; then
-  [[ $EUID = 0 ]] && >&2 echo "Do not run as root" && exit 1
   packages3=(
     # "proselint"
     # "pynvim"

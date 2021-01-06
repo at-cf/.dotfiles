@@ -8,8 +8,9 @@ echo   update-arch, update-aur, update-npm
 echo   clean
 echo
 
+[[ $EUID = 0 ]] && >&2 echo "Do not run as root" && exit 1
+
 if [ "$1" = "check" ]; then
-  [[ $EUID = 0 ]] && >&2 echo "Do not run as root" && exit 1
   # Show systemd services that have entered in a failed state
   systemctl --failed
   # Show broken symlinks
@@ -19,37 +20,45 @@ if [ "$1" = "check" ]; then
 fi
 
 if [ "$1" = "update-arch" ]; then
-  [[ $EUID > 0 ]] && >&2 echo "Run as root" && exit 1
-  pacman -Syu
+  sudo pacman -Syu
   echo "Arch update complete"
   exit 0
 fi
 
 if [ "$1" = "update-aur" ]; then
-  [[ $EUID = 0 ]] && >&2 echo "Do not run as root" && exit 1
   yay -Syu
   echo "AUR update complete"
   exit 0
 fi
 
 if [ "$1" = "update-npm" ]; then
-  [[ $EUID = 0 ]] && >&2 echo "Do not run as root" && exit 1
   npm update -g
   echo "npm update complete"
   exit 0
 fi
 
 if [ "$1" = "clean" ]; then
-  [[ $EUID > 0 ]] && >&2 echo "Run as root" && exit 1
   set +e
   # Remove orphans
-  pacman -Rns $(pacman -Qtdq)
+  sudo pacman -Rns $(pacman -Qtdq)
   # Clean package cache
-  paccache -ruk0
+  sudo paccache -ruk0
   # Delete all cached except latest 3
-  paccache -r
+  sudo paccache -r
   # Discard blocks not in use by the filesystem
-  fstrim -av
+  sudo fstrim -av
+  if [ $(./ask_yes_or_no "Prune docker?") == "yes" ]; then
+    docker system prune
+  fi
+  if [ $(./ask_yes_or_no "Empty trash?") == "yes" ]; then
+    ./empty_trash
+  fi
+  if [ $(./ask_yes_or_no "Clear thumbnail cache?") == "yes" ]; then
+    ./clear_thumbnail_cache
+  fi
+  if [ $(./ask_yes_or_no "Clear shell history?") == "yes" ]; then
+    ./clear_shell_history
+  fi
   echo "Clean complete"
   set -e
   exit 0
