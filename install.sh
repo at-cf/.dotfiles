@@ -117,6 +117,7 @@ if [ "$1" = "pacman" ]; then
   [[ $EUID > 0 ]] && >&2 echo "Run as root" && exit 1
   if [ "$2" = "system" ]; then
     pacman -S --noconfirm \
+      "base-devel" \
       "sysstat" \
       "dos2unix" \
       "acpi" \
@@ -186,7 +187,7 @@ if [ "$1" = "pacman" ]; then
       "rclone" \
       "surfraw" \
       "qbittorrent"
-      # "firefox" \
+      "firefox"
       # "uget"
     exit 0
   elif [ "$2" = "docker" ]; then
@@ -274,9 +275,9 @@ if [ "$1" = "pacman" ]; then
     pacman -S --noconfirm \
       "workrave" \
       "calibre" \
-      "zathura" \
-      "zathura-pdf-poppler"
-      # "libreoffice-still"
+      # "zathura" \
+      # "zathura-pdf-poppler" \
+      "libreoffice-still"
     exit 0
   fi
   >&2 echo 'Specify what to install' && exit 1

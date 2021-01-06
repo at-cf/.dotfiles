@@ -23,11 +23,12 @@ mkdir -p $HOME/Android
 
 ./install.sh link
 
+sudo ./install.sh pacman system
+
 if ! [ -x "$(command -v yay)" ]; then
   ./install.sh yay
 fi
 
-sudo ./install.sh pacman system
 sudo ./install.sh pacman shell
 sudo ./install.sh pacman security
 sudo ./install.sh pacman sound
@@ -51,6 +52,7 @@ if [ -x "$(command -v yay)" ]; then
   # yay -S --noconfirm "google-chrome"
   yay -S --noconfirm "pycharm-professional"
   # yay -S --noconfirm "ttf-windows"
+  yay -S --noconfirm "foxitreader"
   yay -S --noconfirm "teamviewer"
   # If TeamViewer won't find connection, it's a permission error:
   # sudo systemctl restart teamviewerd.service
