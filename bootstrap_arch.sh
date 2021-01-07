@@ -33,8 +33,11 @@ fi
 ./install.sh tpm
 ./install.sh zsh && ./install.sh zsh syntax-highlighting
 ./install.sh pip
-./install.sh node && ./install.sh node packages
+./install.sh node nvm && . "~/.nvm/nvm.sh" && ./install.sh node packages
 # Below here is not safe to run multiple times...
 ./install.sh system disable-core-dump
 ./install.sh system disable-beep
 echo "Setup complete, reboot..."
+# After reboot:
+# xfconf-query -c xfce4-session -p /general/LockCommand -s "slock" --create -t string
+

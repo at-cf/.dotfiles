@@ -92,11 +92,11 @@ fi
 if [ "$1" = "system" ]; then
   if [ "$2" = "disable-core-dump" ]; then
     file=/etc/sysctl.d/50-coredump.conf
-    sudo echo 'kernel.core_pattern=|/bin/false' > $file &&
+    echo 'kernel.core_pattern=|/bin/false' | sudo tee $file &&
       sudo sysctl -p $file
     exit 0
   elif [ "$2" = "disable-beep" ]; then
-    sudo echo "blacklist pcspkr" > /etc/modprobe.d/nobeep.conf
+    echo "blacklist pcspkr" | sudo tee /etc/modprobe.d/nobeep.conf
     exit 0
   elif [ "$2" = "home-dirs" ]; then
     mkdir -p ${HOME}/GoogleDrive
@@ -116,9 +116,9 @@ if [ "$1" = "system" ]; then
       sudo chmod 600 $swap && \
       sudo mkswap $swap && \
       sudo sysctl -w vm.swappiness=1 && \
-      sudo echo "vm.swappiness=1" >> /etc/sysctl.d/99-sysctl.conf && \
+      echo "vm.swappiness=1" | sudo tee -a /etc/sysctl.d/99-sysctl.conf && \
       sudo swapon $swap && \
-      sudo echo "${swap} none swap defaults 0 0" >> /etc/fstab && \
+      echo "${swap} none swap defaults 0 0" | sudo tee -a /etc/fstab && \
       echo >&2 "See the comments to enable hibernate!"
     # Find offset with filefrag -v $swap
     # Add 'resume=/dev/mapper/volgroup0-lv_root resume_offset=<your offset>' to /etc/default/grub and regenerate
@@ -162,7 +162,7 @@ fi
 if [ "$1" = "pacman" ]; then
   if [ "$2" = "lts-kernel" ]; then
     sudo pacman -S --noconfirm "linux-lts" "linux-lts-headers"
-    # Uninstall latest kernels (optional), and make your grub config again
+    # Uninstall latest kernels (optional), and make grub/mkinitcpio again
     exit 0
   elif [ "$2" = "system" ]; then
     sudo pacman -S --noconfirm \
@@ -225,7 +225,7 @@ if [ "$1" = "pacman" ]; then
     sudo pacman -S --noconfirm "ufw" "gufw" && \
       sudo systemctl enable ufw.service && \
       sudo systemctl start ufw.service && \
-      sudo ufw enable && ufw logging off
+      sudo ufw enable && sudo ufw logging off
     exit 0
   elif [ "$2" = "internet" ]; then
     sudo pacman -S --noconfirm \
@@ -234,7 +234,7 @@ if [ "$1" = "pacman" ]; then
       "chromium" \
       "rclone" \
       "surfraw" \
-      "qbittorrent"
+      "qbittorrent" \
       "firefox"
       # "uget"
     # yay -S --noconfirm "google-chrome" \
@@ -291,9 +291,8 @@ if [ "$1" = "pacman" ]; then
       "xfce4-terminal" \
       "network-manager-applet" \
       "pasystray" \
+      "slock" \
       "mousepad"
-    sudo pacman -S --noconfirm "slock" && \
-      sudo xfconf-query -c xfce4-session -p /general/LockCommand -s "slock" --create -t string
     exit 0
   elif [ "$2" = "xfce-panel-plugins" ]; then
     sudo pacman -S --noconfirm \
