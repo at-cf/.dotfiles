@@ -1,9 +1,8 @@
 #! /bin/bash
 
-if [[ $EUID > 0 ]]; then
-  >&2 echo "Run as root"
-  exit 1
-fi
+set -e
+
+[[ $EUID > 0 ]] && >&2 echo "Run as root" && exit 1
 
 cp -rf disable_acpi_wakeup.service /etc/systemd/system/disable_acpi_wakeup.service
 

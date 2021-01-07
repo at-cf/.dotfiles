@@ -1,0 +1,14 @@
+# vim: ft=sh
+
+stty -ixon
+
+export TERM="xterm-256color"
+{ infocmp -1 xterm-256color ; echo "\tsitm=\\E[3m,\n\tritm=\\E[23m,"; } | tic -x -
+
+# From https://zsh-prompt-generator.site/
+# PROMPT="%*|%?:%~>"
+export PROMPT="%F{blue}%*|%?%f %F{green}%~%f "
+
+# Syntax highlighting
+[ -s "${CF_BUILD}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ] \
+  && source "${CF_BUILD}/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
