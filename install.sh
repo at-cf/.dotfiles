@@ -80,6 +80,7 @@ if [ "$1" = "link" ]; then
   link local/beets ${XDG_CONFIG_HOME}/beets optional
   link local/mimeapps.list ${XDG_CONFIG_HOME}/mimeapps.list optional
   link local/profile ${HOME}/.profile.local optional
+  link local/xprofile ${HOME}/.xprofile.local optional
   link local/alias ${HOME}/.alias.local optional
   link local/vlc ${XDG_CONFIG_HOME}/vlc optional
   link local/qBittorrent ${XDG_CONFIG_HOME}/qBittorrent optional
@@ -141,8 +142,10 @@ if [ "$1" = "hp" ]; then
       sudo ./dkms-install.sh
     exit 0
   elif [ "$2" = "optimus-lts" ]; then
+    # See https://wiki.archlinux.org/index.php/NVIDIA_Optimus#Use_NVIDIA_graphics_only
+    # Stopped using bumblebee, rather use GPU since I'm plugged in 99% of the time
     sudo pacman -S --noconfirm \
-      "bumblebee" \
+      # "bumblebee" \
       "mesa" \
       "mesa-demos" \
       "xf86-video-intel" \
@@ -150,11 +153,12 @@ if [ "$1" = "hp" ]; then
       "nvidia-settings" \
       "nvidia-utils" \
       "opencl-nvidia" && \
-      sudo gpasswd -a "$CF_USER" bumblebee && \
-      sudo systemctl enable bumblebeed.service && \
+      # sudo gpasswd -a "$CF_USER" bumblebee && \
+      # sudo systemctl enable bumblebeed.service && \
       sudo nvidia-modprobe
     echo "Reboot required..."
     # Test with `optirun glxgears -info`
+    # Check active GPU with `optirun glxinfo|egrep "OpenGL vendor|OpenGL renderer"`
     exit 0
   fi
 fi
@@ -175,6 +179,9 @@ if [ "$1" = "pacman" ]; then
       "bc" \
       "pacman-contrib" \
       "wmctrl"
+    yay -S --noconfirm "cpupower-gui"
+    sudo pacman -S --noconfirm "thermald" && \
+      sudo systemctl start thermald.service
     exit 0
   elif [ "$2" = "x" ]; then
     sudo pacman -S --noconfirm \
@@ -239,9 +246,11 @@ if [ "$1" = "pacman" ]; then
       # "uget"
     # yay -S --noconfirm "google-chrome" \
     #   "skypeforlinux-stable-bin" \
-    #   "chromium-widevine"
-    yay -S --noconfirm "teamviewer" && \
-      sudo systemctl restart teamviewerd.service
+    #   "chromium-widevine" \
+    #   "youtube-dlc"
+    # TeamViewer on Arch is unstable...
+    # yay -S --noconfirm "teamviewer" && \
+    #   sudo systemctl restart teamviewerd.service
     exit 0
   elif [ "$2" = "docker" ]; then
     sudo pacman -S --noconfirm "docker" "docker-compose" && \
@@ -292,7 +301,8 @@ if [ "$1" = "pacman" ]; then
       "network-manager-applet" \
       "pasystray" \
       "slock" \
-      "mousepad"
+      "mousepad" \
+      "papirus-icon-theme"
     exit 0
   elif [ "$2" = "xfce-panel-plugins" ]; then
     sudo pacman -S --noconfirm \
@@ -301,7 +311,8 @@ if [ "$1" = "pacman" ]; then
       "xfce4-systemload-plugin" \
       "xfce4-sensors-plugin" \
       "xfce4-weather-plugin" \
-      "xfce4-netload-plugin"
+      "xfce4-netload-plugin" \
+      "xfce4-clipman-plugin"
     exit 0
   elif [ "$2" = "thunar" ]; then
     sudo pacman -S --noconfirm \

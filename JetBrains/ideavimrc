@@ -1,3 +1,9 @@
+""" Plugins to install:
+"""   IdeaVim
+"""   Grep Console
+"""   .env files support
+"""   Requirements
+
 """ Map leader to space ---------------------
 let mapleader=" "
 

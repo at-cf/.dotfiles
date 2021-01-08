@@ -33,6 +33,7 @@
       <property name="Print" type="string" value="flameshot gui -p /home/user/Pictures/Screenshots"/>
       <property name="&lt;Shift&gt;Print" type="string" value="flameshot full -p /home/user/Pictures/Screenshots"/>
       <property name="&lt;Super&gt;x" type="string" value="xfce4-popup-whiskermenu --pointer"/>
+      <property name="&lt;Super&gt;k" type="string" value="keepassxc"/>
     </property>
   </property>
   <property name="xfwm4" type="empty">
