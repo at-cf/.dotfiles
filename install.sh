@@ -83,7 +83,6 @@ if [ "$1" = "link" ]; then
   link local/xprofile ${HOME}/.xprofile.local optional
   link local/alias ${HOME}/.alias.local optional
   link local/vlc ${XDG_CONFIG_HOME}/vlc optional
-  link local/qBittorrent ${XDG_CONFIG_HOME}/qBittorrent optional
   link local/gtk-3.0/bookmarks ${XDG_CONFIG_HOME}/gtk-3.0/bookmarks optional
   link local/face.jpg ${HOME}/.face optional
   link local/autostart/autostart.desktop ${XDG_CONFIG_HOME}/autostart/autostart.desktop optional
@@ -123,52 +122,23 @@ if [ "$1" = "system" ]; then
       echo >&2 "See the comments to enable hibernate!"
     # Find offset with filefrag -v $swap
     # Add 'resume=/dev/mapper/volgroup0-lv_root resume_offset=<your offset>' to /etc/default/grub and regenerate
-    # Change hooks in /etc/mkinitcpio.conf: move keyboard before encrypt, move resume after encrypt (and lvm2?) before filesystems and then regenerate
+    # Change hooks in /etc/mkinitcpio.conf: move keyboard before encrypt, move resume after encrypt/lvm2, before filesystems and then regenerate
     exit 0
   fi
 fi
 
 if [ "$1" = "hp" ]; then
-  # To fix screen brightness, add to /etc/X11/xorg.conf.d/20-intel.conf:
-  #   Section "Device"
-  #       Identifier  "Intel Graphics"
-  #       Driver      "intel"
-  #       Option      "Backlight"  "intel_backlight"
-  #   EndSection
   if [ "$2" = "wifi" ]; then
     sudo pacman -S --noconfirm "bc" "dkms" && \
       install=$CF_BUILD && mkdir -p $install && cd $install && \
       git clone --depth 1 https://github.com/tomaspinho/rtl8821ce.git && cd rtl8821ce && \
       sudo ./dkms-install.sh
     exit 0
-  elif [ "$2" = "optimus-lts" ]; then
-    # See https://wiki.archlinux.org/index.php/NVIDIA_Optimus#Use_NVIDIA_graphics_only
-    # Stopped using bumblebee, rather use GPU since I'm plugged in 99% of the time
-    sudo pacman -S --noconfirm \
-      # "bumblebee" \
-      "mesa" \
-      "mesa-demos" \
-      "xf86-video-intel" \
-      "nvidia-lts" \
-      "nvidia-settings" \
-      "nvidia-utils" \
-      "opencl-nvidia" && \
-      # sudo gpasswd -a "$CF_USER" bumblebee && \
-      # sudo systemctl enable bumblebeed.service && \
-      sudo nvidia-modprobe
-    echo "Reboot required..."
-    # Test with `optirun glxgears -info`
-    # Check active GPU with `optirun glxinfo|egrep "OpenGL vendor|OpenGL renderer"`
-    exit 0
   fi
 fi
 
 if [ "$1" = "pacman" ]; then
-  if [ "$2" = "lts-kernel" ]; then
-    sudo pacman -S --noconfirm "linux-lts" "linux-lts-headers"
-    # Uninstall latest kernels (optional), and make grub/mkinitcpio again
-    exit 0
-  elif [ "$2" = "system" ]; then
+  if [ "$2" = "system" ]; then
     sudo pacman -S --noconfirm \
       "base-devel" \
       "sysstat" \
@@ -177,9 +147,8 @@ if [ "$1" = "pacman" ]; then
       "lm_sensors" \
       "htop" \
       "bc" \
-      "pacman-contrib" \
       "wmctrl"
-    yay -S --noconfirm "cpupower-gui"
+    # yay -S --noconfirm "cpupower-gui"
     sudo pacman -S --noconfirm "thermald" && \
       sudo systemctl start thermald.service
     exit 0
@@ -195,8 +164,8 @@ if [ "$1" = "pacman" ]; then
       "xorg-xset" \
       "xorg-xbacklight" \
       "xorg-xsetroot" \
-      "xclip" \
       "xautolock" \
+      "xclip" \
       "xsel"
     exit 0
   elif [ "$2" = "shell" ]; then
@@ -259,16 +228,6 @@ if [ "$1" = "pacman" ]; then
       sudo usermod -aG docker $CF_USER
     # yay -S --noconfirm "kitematic"
     exit 0
-  elif [ "$2" = "virtualbox" ]; then
-    sudo pacman -S --noconfirm \
-      "virtualbox" \
-      "virtualbox-host-modules-arch" \
-      "virtualbox-guest-iso"
-      # virtualbox-ext-oracle
-    echo "Reboot required..."
-    # usermod -a -G vboxusers $USER
-    # /usr/lib/virtualbox/additions/VBoxGuestAdditions.iso
-    exit 0
   elif [ "$2" = "development" ]; then
     # Replace with gvim... pacman -R --noconfirm vim
     sudo pacman -S --noconfirm \
@@ -300,7 +259,6 @@ if [ "$1" = "pacman" ]; then
       "xfce4-terminal" \
       "network-manager-applet" \
       "pasystray" \
-      "slock" \
       "mousepad" \
       "papirus-icon-theme"
     exit 0

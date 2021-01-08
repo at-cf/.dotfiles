@@ -13,10 +13,8 @@ HOST_OS=${1}
 ./install.sh link
 ./install.sh pacman system
 ./install.sh yay
-if [ "$HOST_OS" = "arch" ]; then
-  ./install.sh pacman x
-  ./install.sh pacman xfce
-fi
+[ "$HOST_OS" = "arch" ] && ./install.sh pacman x
+[ "$HOST_OS" = "arch" ] && ./install.sh pacman xfce
 ./install.sh pacman xfce-panel-plugins
 ./install.sh pacman shell
 ./install.sh pacman security
@@ -38,6 +36,3 @@ fi
 ./install.sh system disable-core-dump
 ./install.sh system disable-beep
 echo "Setup complete, reboot..."
-# After reboot:
-# xfconf-query -c xfce4-session -p /general/LockCommand -s "slock" --create -t string
-

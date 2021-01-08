@@ -20,7 +20,7 @@ else
   export VISUAL=vim
 fi
 export TERMINAL=xfce4-terminal
-export BROWSER=chromium
+export BROWSER=firefox
 export PAGER=less
 
 # Settings
