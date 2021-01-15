@@ -99,7 +99,6 @@ if [ "$1" = "system" ]; then
     echo "blacklist pcspkr" | sudo tee /etc/modprobe.d/nobeep.conf
     exit 0
   elif [ "$2" = "home-dirs" ]; then
-    mkdir -p ${HOME}/GoogleDrive
     mkdir -p ${HOME}/Documents
     mkdir -p ${HOME}/Downloads
     mkdir -p ${HOME}/Development/.tmp
@@ -208,11 +207,11 @@ if [ "$1" = "pacman" ]; then
       "wget" \
       "curl" \
       "chromium" \
-      "rclone" \
       "surfraw" \
       "qbittorrent" \
       "firefox"
       # "uget"
+      # "rclone"
     # yay -S --noconfirm "google-chrome" \
     #   "skypeforlinux-stable-bin" \
     #   "chromium-widevine" \
