@@ -11,7 +11,7 @@ local_dotfiles=./local
 [ ! -e ./local.tar.gz.gpg ] || rm ./local.tar.gz.gpg
 
 tar czf ./local.tar.gz $local_dotfiles
-gpg -c ./local.tar.gz
+gpg -c --force-mdc --s2k-mode 3 --s2k-count 65011712 ./local.tar.gz
 
 # decrypt: gpg local.tar.gz.gpg
 # extract: tar xzf local.tar.gz
