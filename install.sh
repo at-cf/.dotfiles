@@ -176,9 +176,7 @@ if [ "$1" = "pacman" ]; then
       "fzf"
     exit 0
   elif [ "$2" = "security" ]; then
-    sudo pacman -S --noconfirm \
-      "keepassxc" \
-      "veracrypt"
+    sudo pacman -S --noconfirm "veracrypt" # "keepassxc"
     exit 0
   elif [ "$2" = "sound" ]; then
     sudo pacman -S --noconfirm \
