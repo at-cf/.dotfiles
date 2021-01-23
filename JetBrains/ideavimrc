@@ -43,3 +43,6 @@ map <leader>r  :action Replace<CR>
 map <leader>R  :action ReplaceInPath<CR>
 map <C-q>      :action CloseEditor<CR>
 map <C-p>      :action SearchEverywhere<CR>
+" Clipboard
+vmap <C-c> "+ygv
+imap <C-v> <ESC>"+pa
