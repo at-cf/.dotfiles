@@ -67,5 +67,6 @@
     "python.formatting.provider": "autopep8",
     "explorer.confirmDelete": false,
     "diffEditor.ignoreTrimWhitespace": false,
-    "explorer.confirmDragAndDrop": false
+    "explorer.confirmDragAndDrop": false,
+    "editor.wordWrap": "off"
 }

@@ -165,7 +165,8 @@ if [ "$1" = "pacman" ]; then
       "xorg-xsetroot" \
       "xautolock" \
       "xclip" \
-      "xsel"
+      "xsel" \
+      "xautomation"
     exit 0
   elif [ "$2" = "shell" ]; then
     sudo pacman -S --noconfirm \
