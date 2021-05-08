@@ -22,6 +22,7 @@ code --install-extension mikestead.dotenv
 code --install-extension gruntfuggly.todo-tree
 code --install-extension alefragnani.project-manager
 # code --install-extension tabnine.tabnine-vscode
+# code --install-extension octref.vetur
 
 
 code --list-extensions

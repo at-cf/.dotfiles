@@ -83,6 +83,7 @@ if [ "$1" = "link" ]; then
   link local/xprofile ${HOME}/.xprofile.local optional
   link local/alias ${HOME}/.alias.local optional
   link local/vlc ${XDG_CONFIG_HOME}/vlc optional
+  link local/redshift.conf ${XDG_CONFIG_HOME}/redshift.conf optional
   link local/gtk-3.0/bookmarks ${XDG_CONFIG_HOME}/gtk-3.0/bookmarks optional
   link local/face.jpg ${HOME}/.face optional
   link local/autostart/autostart.desktop ${XDG_CONFIG_HOME}/autostart/autostart.desktop optional
