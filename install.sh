@@ -77,7 +77,7 @@ if [ "$1" = "link" ]; then
   link xfce4/terminal/terminalrc ${XDG_CONFIG_HOME}/xfce4/terminal/terminalrc
   # More host-specific stuff
   link local/gitconfig ${HOME}/.gitconfig.local optional
-  link local/beets ${XDG_CONFIG_HOME}/beets optional
+  link local/beets/config.linux.yaml ${XDG_CONFIG_HOME}/beets/config.yaml optional
   link local/mimeapps.list ${XDG_CONFIG_HOME}/mimeapps.list optional
   link local/profile ${HOME}/.profile.local optional
   link local/xprofile ${HOME}/.xprofile.local optional
@@ -86,7 +86,6 @@ if [ "$1" = "link" ]; then
   link local/redshift.conf ${XDG_CONFIG_HOME}/redshift.conf optional
   link local/gtk-3.0/bookmarks ${XDG_CONFIG_HOME}/gtk-3.0/bookmarks optional
   link local/face.jpg ${HOME}/.face optional
-  link local/autostart/autostart.desktop ${XDG_CONFIG_HOME}/autostart/autostart.desktop optional
   exit 0
 fi
 
@@ -189,12 +188,12 @@ if [ "$1" = "pacman" ]; then
   elif [ "$2" = "network" ]; then
     sudo pacman -S --noconfirm \
       "net-tools" \
+      # "tigervnc" \
       "openssh" \
       "openvpn" \
       "networkmanager" \
       "nm-connection-editor" \
-      "networkmanager-openvpn" \
-      "tigervnc"
+      "networkmanager-openvpn"
     exit 0
   elif [ "$2" = "firewall" ]; then
     sudo pacman -S --noconfirm "ufw" "gufw" && \
@@ -206,8 +205,8 @@ if [ "$1" = "pacman" ]; then
     sudo pacman -S --noconfirm \
       "wget" \
       "curl" \
-      "chromium" \
-      "surfraw" \
+      # "chromium" \
+      # "surfraw" \
       "qbittorrent" \
       "firefox"
       # "uget"
@@ -292,15 +291,15 @@ if [ "$1" = "pacman" ]; then
       "viewnior" \
       "flameshot" \
       "peek" \
-      "cmus" \
+      # "cmus" \
       "vlc" \
       "beets" \
-      "mp3info" \
+      # "mp3info" \
       "gimp"
     exit 0
   elif [ "$2" = "office" ]; then
     sudo pacman -S --noconfirm \
-      "workrave" \
+      # "workrave" \
       "calibre" \
       "libreoffice-still"
     yay -S --noconfirm "foxitreader"

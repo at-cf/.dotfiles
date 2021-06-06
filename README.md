@@ -15,14 +15,12 @@ git clone --recurse-submodules https://github.com/at-cf/.dotfiles.git
 Install to `$env:USERPROFILE\.dotfiles` (a.k.a. `$env:DOTFILES`, this location cannot be changed):
 
 ```posh
-powershell -nop -c "iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/at-cf/.dotfiles/master/Bootstrap.ps1'))"
+iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/at-cf/.dotfiles/master/Bootstrap.ps1'))
 ```
 
 Run [O&O ShutUp10](https://www.oo-software.com/en/shutup10) regularly on Windows.
 
 ## Vim
-
-If on Windows, get vim from [here](https://tuxproject.de/projects/vim/).
 
 - Set `[N]VIM_PLUGINS=<0|1>` to globally enable or disable all the self-installing [vim-plug](https://github.com/junegunn/vim-plug) plugins (disabled by default, just run stock Vim)
 - Set `[N]VIM_FONT` to specify the graphical font used

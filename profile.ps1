@@ -55,23 +55,7 @@ function touch {
 
 function which($name) { Get-Command $name -ErrorAction SilentlyContinue | Select-Object Definition }
 
-$Host.UI.RawUI.BackgroundColor = 'Black'
-$Host.UI.RawUI.ForegroundColor = 'White'
-$Host.PrivateData.ErrorForegroundColor = 'Red'
-$Host.PrivateData.ErrorBackgroundColor = 'Black'
-$Host.PrivateData.WarningForegroundColor = 'Yellow'
-$Host.PrivateData.WarningBackgroundColor = 'Black'
-$Host.PrivateData.DebugForegroundColor = 'Yellow'
-$Host.PrivateData.DebugBackgroundColor = 'Black'
-$Host.PrivateData.VerboseForegroundColor = 'Green'
-$Host.PrivateData.VerboseBackgroundColor = 'Black'
-$Host.PrivateData.ProgressForegroundColor = 'DarkGray'
-$Host.PrivateData.ProgressBackgroundColor = 'Black'
-
 function prompt {
-  # fixes colors sticking around from bad commands
-  $Host.UI.RawUI.BackgroundColor = 'Black'
-  $Host.UI.RawUI.ForegroundColor = 'White'
   $location = $(Get-Location) -replace ($env:USERPROFILE).Replace('\','\\'), "~"
   $host.UI.RawUI.WindowTitle = $location
   "$location "

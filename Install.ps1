@@ -1,7 +1,6 @@
 param (
   [switch]$Link = $false,
-  [switch]$PSProfile = $false,
-  [switch]$Chocolatey = $false
+  [switch]$PSProfile = $false
 )
 
 if ([string]::IsNullOrEmpty($env:DOTFILES)) {
@@ -71,7 +70,7 @@ function Install-Links() {
     }
     Link "$env:APPDATA\Code\User\settings.json" "$env:DOTFILES\vscode\settings.json"
     Link "$env:APPDATA\Code\User\keybindings.json" "$env:DOTFILES\vscode\keybindings.json"
-    Link "$env:APPDATA\beets\config.yaml" "$env:DOTFILES\local\beets.config.yaml"
+    Link "$env:APPDATA\beets\config.yaml" "$env:DOTFILES\local\beets\config.windows.yaml"
   }
   End {
     Write-Host "Finished installing links" -ForegroundColor 'Green'
@@ -115,82 +114,3 @@ if ([System.IO.File]::Exists("$newProfile")) { . $newProfile } else { echo "$new
 if ($PSProfile) {
   Install-Profile $profile.CurrentUserAllHosts
 }
-
-function Install-Chocolatey() {
-  [CmdletBinding()]
-  Param ($installDir)
-  Begin {
-    if ([string]::IsNullOrEmpty($installDir)) {
-      if (!(Test-IsAdmin)) { Throw "Run as admin" }
-    } else {
-      if (Test-IsAdmin) { Throw "Do not run as admin" }
-    }
-    Write-Host "Installing Chocolatey..." -ForegroundColor 'Blue'
-  }
-  Process {
-    Set-ExecutionPolicy Bypass -Scope Process -Force;
-    if (![string]::IsNullOrEmpty($installDir)) {
-      Write-Host "Installing as non-admin to $installDir" -ForegroundColor 'Yellow'
-      $env:ChocolateyInstall="$installDir"
-    }
-    [Net.WebRequest]::DefaultWebProxy.Credentials = [Net.CredentialCache]::DefaultCredentials
-    iex ((New-Object Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-    if (![string]::IsNullOrEmpty($installDir)) {
-      [Environment]::SetEnvironmentVariable('ChocolateyInstall', $installDir, "User")
-    }
-  }
-  End {
-    Write-Host "Finished installing Chocolatey" -ForegroundColor 'Green'
-  }
-}
-
-if ($Chocolatey) {
-  Install-Chocolatey
-  # For local (non-admin) install:
-  # Install-Chocolatey $(Join-Path $env:USERPROFILE chocolatey)
-}
-
-# pip packages
-# pip install --user --upgrade proselint
-# pip install --user --upgrade pynvim
-# pip install --user --upgrade yamllint
-# pip install --user --upgrade awscli
-# pip install --user --upgrade beets pylast beets-follow
-
-# npm packages
-# npm outdated -g --depth=0
-# npm update -g
-# npm install -g npm@latest
-# npm install -g rimraf
-# npm install -g editorconfig
-# npm install -g neovim
-# npm install -g prettier
-# npm install -g typescript typescript-language-server
-
-# chocolatey packages
-# choco install -y --limit-output curl
-# choco install -y --limit-output ripgrep
-# choco install -y --limit-output git.install --params "/GitOnlyOnPath /NoAutoCrlf /WindowsTerminal /NoShellIntegration /NoGitLfs /SChannel"
-# choco install -y --limit-output nodejs.install
-# choco install -y --limit-output python
-# choco install -y --limit-output 7zip
-# choco install -y --limit-output vim-tux
-# choco install -y --limit-output notepadplusplus.install
-# choco install -y --limit-output greenshot
-# choco install -y --limit-output screentogif
-# choco install -y --limit-output paint.net
-# choco install -y --limit-output sumatrapdf
-# choco install -y --limit-output keepass
-# choco install -y --limit-output veracrypt
-# choco install -y --limit-output eraser
-# choco install -y --limit-output freefilesync
-# choco install -y --limit-output openvpn
-# choco install -y --limit-output firefox
-# choco install -y --limit-output chromium
-# choco install -y --limit-output qbittorrent
-# choco install -y --limit-output skype
-# choco install -y --limit-output zoom
-# choco install -y --limit-output calibre
-# choco install -y --limit-output vlc
-# choco install -y --limit-output musicbee
-# choco install -y --limit-output coretemp
