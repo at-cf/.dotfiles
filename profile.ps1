@@ -28,6 +28,15 @@ ${function:nid} = { npm install --save-dev @args }
 ${function:nig} = { npm install -g @args }
 ${function:nr} = { npm run @args }
 
+Set-Alias d docker
+Set-Alias dc docker-compose
+${function:dcd} = { docker-compose down -t 60 }
+${function:dcs} = { docker-compose stop -t 60 }
+${function:dcb} = { docker-compose build }
+${function:dcbb} = { docker-compose build --no-cache }
+${function:dcu} = { docker-compose up -d }
+${function:dls} = { docker ps }
+
 if (Get-Command gvim.exe -ErrorAction SilentlyContinue | Test-Path) {
   $env:EDITOR = "gvim"
   ${function:v} = { gvim @args }
