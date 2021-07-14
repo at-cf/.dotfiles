@@ -9,11 +9,11 @@ code --install-extension vscodevim.vim
 code --install-extension mikestead.dotenv
 code --install-extension alefragnani.project-manager
 code --install-extension oderwat.indent-rainbow
+code --install-extension gruntfuggly.todo-tree
 
 # code --install-extension ms-azuretools.vscode-docker
 # code --install-extension hashicorp.terraform
 # code --install-extension dsznajder.es7-react-js-snippets
 # code --install-extension ms-python.python
-# code --install-extension ms-vscode-remote.remote-wsl
 
 code --list-extensions
